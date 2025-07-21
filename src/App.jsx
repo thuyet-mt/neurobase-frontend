@@ -1,11 +1,5 @@
 import Neurobase from "./components/Neurobase";
-
 function App() {
-  return (
-    <div>
-      <Neurobase />
-    </div>
-  );
+  return <Neurobase />;
 }
-
 export default App;

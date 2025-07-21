@@ -1,0 +1,79 @@
+.menu-btn-root {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  right: 64px;
+  top: 64px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.menu-btn-border {
+  box-sizing: border-box;
+  position: absolute;
+  width: 82px;
+  height: 82px;
+  left: calc(50% - 82px/2);
+  top: calc(50% - 82px/2);
+  background: linear-gradient(135deg, #A9873F 0%, #8C6925 100%);
+  border: 1px solid #3D241B;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.menu-btn-bg {
+  box-sizing: border-box;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  left: calc(50% - 80px/2);
+  top: 0%;
+  bottom: 0%;
+  background: linear-gradient(135deg, #A9873F 0%, #8C6925 100%);
+  border: 1px solid #3D241B;
+  border-radius: 50%;
+  box-shadow: 0px 6.4px 12.8px rgba(0, 0, 0, 0.25), 
+              inset 8px 8px 9.6px rgba(255, 255, 255, 0.4), 
+              inset -8px -8px 6.4px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.menu-btn-frame {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  left: calc(50% - 48px/2);
+  top: calc(50% - 48px/2);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-btn-vector {
+  position: absolute;
+  border: 4px solid #3D241B;
+  border-radius: 2px;
+}
+
+.vector1 {
+  left: 25%;
+  right: 25%;
+  top: 58.33%;
+  bottom: 16.67%;
+}
+
+.vector2 {
+  left: 33.33%;
+  right: 33.33%;
+  top: 25%;
+  bottom: 41.67%;
+}
+
+.vector3 {
+  left: 8.33%;
+  right: 8.33%;
+  top: 8.33%;
+  bottom: 8.33%;
+} 
