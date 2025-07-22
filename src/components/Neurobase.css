@@ -66,35 +66,3 @@
   height: 100%;
   object-fit: cover;
 }
-
-.group3-btn {
-  position: absolute;
-  width: 156px;
-  height: 76px;
-  left: 36px;
-  top: calc(50% - 76px/2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-.group3-btn svg {
-  position: absolute;
-  width: 156px;
-  height: 76px;
-  left: 0;
-  top: 0;
-  pointer-events: none;
-}
-.group3-btn-text {
-  position: relative;
-  z-index: 2;
-  font-family: 'Open Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 27px;
-  color: #4E3117;
-  text-align: center;
-  user-select: none;
-}
