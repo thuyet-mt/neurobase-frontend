@@ -1,68 +1,170 @@
 .neurobase-root {
   position: relative;
-  width: 100vw;   /* hoặc 100% nếu parent đã fill */
-  height: 100vh;  /* hoặc 100% nếu parent đã fill */
-  left: 0;
-  top: 0;
-  background: #615637;
+  width: 1440px;
+  height: 1024px;
   overflow: hidden;
+  margin: 0 auto;
+  background: #E4DAC2;
+}
+
+.neurobase-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .neurobase-image-bg {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
-  left: 0;
   top: 0;
-  transform: none;
-  z-index: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .neurobase-image-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 1;
+  transform: rotate(0deg);
 }
 
 .neurobase-logo {
   position: absolute;
-  width: 120px;
-  height: 120px;
-  left: 44px;
-  top: 44px;
-  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
 }
+
 .neurobase-logo img {
-  width: 100%;
-  height: 100%;
+  max-width: 200px;
+  height: auto;
 }
 
 .neurobase-title {
   position: absolute;
-  width: 279px;
-  left: calc(50% - 279px/2 + 1px);
-  top: 7.03%;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FAECD2;
   font-family: 'Open Sans', sans-serif;
-  font-style: normal;
+  font-size: 48px;
   font-weight: 700;
-  font-size: 46px;
-  line-height: 139%;
-  display: flex;
-  align-items: center;
   text-align: center;
-  color: #DFAA2E;
-  z-index: 2;
+  z-index: 3;
+  margin: 0;
 }
 
-.neurobase-file-bg {
+/* Notification Popup Styles */
+.notification-popup {
   position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-  z-index: 0;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
 }
-.neurobase-file-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+.notification-content {
+  background: linear-gradient(135deg, #E4DAC2 0%, #C7B7A5 100%);
+  border: 2px solid #AB8E6F;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.notification-message {
+  color: #3C241B;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  color: #3C241B;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.notification-close:hover {
+  background-color: rgba(60, 36, 27, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive design - giữ nguyên kích thước background */
+@media (max-width: 1440px) {
+  .neurobase-root {
+    width: 100vw;
+    height: calc(100vw * 1024 / 1440);
+    max-height: 100vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .neurobase-title {
+    font-size: 32px;
+  }
+  
+  .neurobase-logo img {
+    max-width: 150px;
+  }
+  
+  .notification-popup {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .notification-content {
+    min-width: auto;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .neurobase-title {
+    font-size: 24px;
+  }
+  
+  .neurobase-logo img {
+    max-width: 100px;
+  }
+  
+  .notification-message {
+    font-size: 14px;
+  }
 }

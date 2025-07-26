@@ -1,0 +1,50 @@
+.container-frame {
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+
+  position: absolute;
+  width: 337px;
+  height: 80px;
+  right: 64px;
+  top: 880px;
+  
+  /* Tạm thời thêm border để dễ nhận biết */
+  border: 2px dashed #ff0000;
+  background-color: rgba(255, 0, 0, 0.1);
+  
+  /* Đảm bảo không vượt ra ngoài background */
+  max-width: calc(1440px - 128px); /* 1440px - (64px * 2) */
+  max-height: calc(1024px - 176px); /* 1024px - (880px + 80px) */
+}
+
+/* Container cho ModeButton */
+.mode-button-container {
+  /* Vị trí tương đối trong ContainerFrame */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Có thể tùy chỉnh vị trí */
+  margin-left: auto; /* Đẩy sang phải */
+  /* margin-right: auto; */ /* Đẩy sang trái */
+  /* margin: 0 auto; */ /* Căn giữa */
+}
+
+/* Tùy chỉnh vị trí ModeButton */
+.mode-button-container.left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.mode-button-container.center {
+  margin: 0 auto;
+}
+
+.mode-button-container.right {
+  margin-left: auto;
+  margin-right: 0;
+} 

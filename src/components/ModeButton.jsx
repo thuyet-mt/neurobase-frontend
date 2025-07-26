@@ -299,7 +299,7 @@ export default function ModeButton() {
   };
 
   return (
-    <div className="mode-btn-root" style={{ left: 1017, top: 880, position: 'absolute', width: 369, height: 80 }}>
+    <div className="mode-btn-root" style={{ right: 24, top: 880, position: 'absolute', width: 369, height: 80 }}>
       <div className="mode-btn-frame" onClick={handleClick}>
         <div className="mode-btn-label" style={{ color: '#FAECD2' }}>{mode.label}</div>
         <div className="mode-btn-svg">{mode.svg}</div>
