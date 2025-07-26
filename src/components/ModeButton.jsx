@@ -135,7 +135,7 @@ const BUTTON_MODES = [
 ];
 
 const ModeButton = ({ 
-  size = 120,
+  size = 80,
   tooltip = '',
   tooltipPosition = 'top',
 }) => {

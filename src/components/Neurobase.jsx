@@ -103,7 +103,7 @@ export default function Neurobase() {
         zIndex: 10
       }}>
         <ModeButton
-          size={120}
+          size={80}
           tooltip="Switch Theme Mode"
           tooltipPosition="top"
         />
