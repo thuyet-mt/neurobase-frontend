@@ -96,7 +96,18 @@ export default function Neurobase() {
       </div>
       
       {/* Container Frame để chứa các component */}
-      <ModeButton/>
+      <div style={{
+        position: 'absolute',
+        bottom: '64px',
+        right: '64px',
+        zIndex: 10
+      }}>
+        <ModeButton
+          size={120}
+          tooltip="Switch Theme Mode"
+          tooltipPosition="top"
+        />
+      </div>
       <ContainerFrame>
         {/* Text indicator để xác nhận ContainerFrame */}
         <div style={{ color: 'black', fontSize: '12px' }}>ContainerFrame Active</div>
