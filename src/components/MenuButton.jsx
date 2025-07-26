@@ -1,9 +1,39 @@
 import React from "react";
 import "./MenuButton.css";
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function MenuButton({ onClick }) {
+  const { currentMode } = useTheme();
+  
+  // Theme-based styling
+  const getThemeStyles = () => {
+    switch (currentMode) {
+      case 'light':
+        return {
+          filter: 'brightness(1.2)',
+          opacity: 0.9
+        };
+      case 'dark':
+        return {
+          filter: 'brightness(0.8) contrast(1.2)',
+          opacity: 1
+        };
+      case 'balance':
+        return {
+          filter: 'brightness(1) saturate(1.1)',
+          opacity: 0.95
+        };
+      default:
+        return {};
+    }
+  };
+
   return (
-    <div className="menu-btn-root" onClick={onClick}>
+    <div 
+      className="menu-btn-root" 
+      onClick={onClick}
+      style={getThemeStyles()}
+    >
       <svg width="80" height="80" viewBox="0 0 106 107" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="53" cy="47" r="40.5" fill="url(#paint0_linear_813_1485)" stroke="#3D241B"/>
         <g filter="url(#filter0_dii_813_1485)">
@@ -34,7 +64,7 @@ export default function MenuButton({ onClick }) {
             <feGaussianBlur stdDeviation="4.8"/>
             <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
             <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0"/>
-            <feBlend mode="normal" in2="effect2_innerShadow_813_1485" result="effect3_innerShadow_813_1485"/>
+            <feBlend mode="normal" in2="shape" result="effect3_innerShadow_813_1485"/>
           </filter>
           <linearGradient id="paint0_linear_813_1485" x1="12" y1="6" x2="94" y2="88" gradientUnits="userSpaceOnUse">
             <stop stopColor="#A9873F"/>

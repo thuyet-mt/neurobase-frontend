@@ -1,9 +1,39 @@
 import React from "react";
 import "./BackButton.css";
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function BackButton({ onClick }) {
+  const { currentMode } = useTheme();
+  
+  // Theme-based styling
+  const getThemeStyles = () => {
+    switch (currentMode) {
+      case 'light':
+        return {
+          filter: 'brightness(1.1)',
+          opacity: 0.9
+        };
+      case 'dark':
+        return {
+          filter: 'brightness(0.7) contrast(1.3)',
+          opacity: 1
+        };
+      case 'balance':
+        return {
+          filter: 'brightness(1) saturate(1.05)',
+          opacity: 0.95
+        };
+      default:
+        return {};
+    }
+  };
+
   return (
-    <div className="back-btn" onClick={onClick}>
+    <div 
+      className="back-btn" 
+      onClick={onClick}
+      style={getThemeStyles()}
+    >
       <svg width="156" height="76" viewBox="0 0 156 76" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g filter="url(#filter0_iiii_813_1603)">
           <path d="M0 38C0 17.0132 17.0132 0 38 0H118C138.987 0 156 17.0132 156 38C156 58.9868 138.987 76 118 76H38C17.0132 76 0 58.9868 0 38Z" fill="#1D1D1D" style={{mixBlendMode:'plus-lighter'}}/>
