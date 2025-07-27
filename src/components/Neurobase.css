@@ -1,10 +1,11 @@
 .neurobase-root {
-  position: relative;
+  position: absolute;
   width: 1440px;
   height: 1024px;
+  left: calc(50% - 1440px/2);
+  top: calc(50% - 1024px/2);
   overflow: hidden;
-  margin: 0 auto;
-  background: #E4DAC2;
+  background: url(../assets/background.png);
 }
 
 .neurobase-bg {
