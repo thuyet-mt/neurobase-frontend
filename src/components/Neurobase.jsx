@@ -4,7 +4,10 @@ import backgroundImg from "../assets/background1.png";
 import logoImg from "../assets/logo_neuro.png";
 import MenuButton from "./MenuButton";
 import ModeButton from "./ModeButton";
-import ContainerFrame from "./ContainerFrame";
+// Components ContainerFrame for ProgressBar
+import ContainerFramePB from "./ContainerFrame";
+// Components ContainerFrame for Menu
+import ContainerFrameMenu from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
 import ProgressBar from "./ProgressBar";
 import { useTheme } from '../contexts/ThemeContext';
@@ -690,7 +693,7 @@ export default function Neurobase() {
           tooltipPosition="top"
         />
       </div>
-      <ContainerFrame>
+      <ContainerFramePB>
         {/* Text indicator để xác nhận ContainerFrame */}
         {/* <div style={{ color: 'black', fontSize: '12px' }}>ContainerFrame Active</div> */}
         
@@ -717,10 +720,10 @@ export default function Neurobase() {
         <AnotherComponent />
         <ModeButton/>
         */}
-      </ContainerFrame>
+      </ContainerFramePB>
       
       {/* Menu Container Frame với kích thước 840x840px */}
-      <ContainerFrame
+      <ContainerFrameMenu
         style={{
           position: 'absolute',
           width: '840px',
@@ -742,7 +745,7 @@ export default function Neurobase() {
           Menu Container Frame (840x840px)
         </div>
         {/* Có thể thêm các component menu ở đây */}
-      </ContainerFrame>
+      </ContainerFrameMenu>
       
       {/* Thông báo popup */}
       {showNotification && (
