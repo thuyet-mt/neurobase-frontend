@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import UserIcon from "../assets/user_icon.svg";
 
 // Centralized configuration for all theme styles
 const themeStyles = {
@@ -91,11 +92,7 @@ const themeStyles = {
 
 // Menu icon SVG component
 const MenuIcon = ({ color = '#4E3117', size = 48 }) => (
-  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M35.998 40C35.998 36.8174 34.7338 33.7652 32.4833 31.5147C30.2329 29.2643 27.1806 28 23.998 28C20.8154 28 17.7632 29.2643 15.5128 31.5147C13.2623 33.7652 11.998 36.8174 11.998 40" stroke="#4E3117" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M23.998 28C28.4163 28 31.998 24.4183 31.998 20C31.998 15.5817 28.4163 12 23.998 12C19.5798 12 15.998 15.5817 15.998 20C15.998 24.4183 19.5798 28 23.998 28Z" stroke="#4E3117" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M23.998 44C35.0437 44 43.998 35.0457 43.998 24C43.998 12.9543 35.0437 4 23.998 4C12.9524 4 3.99805 12.9543 3.99805 24C3.99805 35.0457 12.9524 44 23.998 44Z" stroke="#4E3117" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+  <img src={UserIcon} alt="Menu" width={size} height={size} style={{ color: color }} />
 );
 
 const MenuButton = ({ 
