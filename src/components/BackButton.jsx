@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import "./BackButton.css";
 import { useTheme } from '../contexts/ThemeContext';
 
-// SVG configurations for different themes
+// SVG configurations for theme
 const BACK_SVGS = {
   light: (
     <svg width="183" height="76" viewBox="0 0 183 76" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,12 +100,12 @@ const BACK_SVGS = {
       </linearGradient>
       </defs>
     </svg>
-
   )
 };
 
-export default function BackButton({ onClick }) {
+export default function BackButton({ onClick, tooltip = '' }) {
   const { currentMode } = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
   
   // Get SVG for current theme
   const currentSVG = BACK_SVGS.light;
@@ -133,13 +133,140 @@ export default function BackButton({ onClick }) {
     }
   };
 
+  // Tooltip styles based on theme
+  const getTooltipStyles = () => {
+    switch (currentMode) {
+      case 'light':
+        return {
+          background: '#F0F0F0',
+          color: '#333333',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        };
+      case 'dark':
+        return {
+          background: '#2C2C2C',
+          color: '#E0E0E0',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+          border: '1px solid #555',
+        };
+      case 'balance':
+        return {
+          background: '#1F1F1F',
+          color: '#FFFFFF',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+          border: '1px solid #D4AF37',
+        };
+      default:
+        return {
+          background: '#1F1F1F',
+          color: '#FFFFFF',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)',
+          border: '1px solid #D4AF37',
+        };
+    }
+  };
+
+  const tooltipStyles = getTooltipStyles();
+
   return (
     <div 
       className="back-btn" 
       onClick={onClick}
-      style={getThemeStyles()}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        ...getThemeStyles(),
+        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+        transition: 'transform 0.3s ease-in-out',
+        cursor: 'pointer',
+        position: 'relative',
+      }}
     >
+      {/* Container for shine effect to keep it within bounds */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: '38px',
+          overflow: 'hidden',
+          zIndex: 2,
+        }}
+      >
+        {/* Shine effect overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '-100%',
+            width: '200%',
+            height: '100%',
+            background: 'linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent)',
+            transform: isHovered ? 'translateX(50%)' : 'translateX(-100%)',
+            transition: 'transform 0.7s ease-in-out',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+      
       {currentSVG}
+
+      {/* Tooltip */}
+      {tooltip && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '100%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            marginBottom: '12px',
+            padding: '8px 12px',
+            borderRadius: '6px',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+            opacity: isHovered ? 1 : 0,
+            visibility: isHovered ? 'visible' : 'hidden',
+            transition: 'opacity 0.2s ease-in-out, visibility 0.2s ease-in-out',
+            pointerEvents: 'none',
+            zIndex: 1000,
+            ...tooltipStyles,
+          }}
+        >
+          <span style={{ position: 'relative', zIndex: 1 }}>
+            {tooltip}
+          </span>
+          {/* Tooltip shine effect */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '50%',
+              height: '100%',
+              background: 'linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
+              transform: isHovered ? 'translateX(250%)' : 'translateX(-100%)',
+              transition: isHovered ? 'transform 0.6s ease-out' : 'none',
+              zIndex: 0,
+            }}
+          />
+          {/* Arrow */}
+          <div
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 0,
+              height: 0,
+              borderLeft: '7px solid transparent',
+              borderRight: '7px solid transparent',
+              borderTop: `7px solid ${tooltipStyles.background}`,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 } 

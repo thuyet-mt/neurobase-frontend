@@ -63,6 +63,19 @@ export default function Neurobase() {
     console.log("GoldenButton clicked!");
   };
 
+  const handleBackButtonClick = () => {
+    // Hiển thị thông báo
+    setNotificationMessage("Back Button đã được kích hoạt! ⬅️");
+    setShowNotification(true);
+    
+    // Tự động ẩn thông báo sau 3 giây
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+    
+    console.log("BackButton clicked!");
+  };
+
   return (
     <div className="neurobase-root" style={getThemeStyles()}>
       <div className="neurobase-bg" />
@@ -76,7 +89,7 @@ export default function Neurobase() {
       {/* Menu Button ở góc trên bên phải */}
       <MenuButton />
       {/* Back Button */}
-      <BackButton />
+      <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} />
       
       {/* Golden Button ở trung tâm */}
       <div style={{
