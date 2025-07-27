@@ -171,14 +171,20 @@ export default function Neurobase() {
       <h1 className="neurobase-title" style={{
         position: 'absolute',
         width: '279px',
-        height: '64px',
-        top: '72px',
-        left: '581px',
-        transform: 'rotate(0deg)',
-        opacity: 1,
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: 'transparent'
+        left: '50%',
+        top: '7.03%',
+        bottom: '86.72%',
+        transform: 'translateX(-50%)',
+        fontFamily: 'Open Sans',
+        fontStyle: 'normal',
+        fontWeight: '700',
+        fontSize: '46px',
+        lineHeight: '139%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        color: '#DFAA2E'
       }}>NEUROBASE</h1>
       {/* Menu Button ở góc trên bên phải */}
       <MenuButton />
