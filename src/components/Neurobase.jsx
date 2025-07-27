@@ -18,6 +18,7 @@ import EmailsIcon from "../assets/email_icon.svg"
 import AgendaIcon from "../assets/agenda_icon.svg"
 import ColisIcon from "../assets/colis_icon.svg"
 import BackButton from "./BackButton";
+import BackIcon from "../assets/back_icon.svg";
 
 export default function Neurobase() {
   const { currentMode } = useTheme();
@@ -187,6 +188,31 @@ export default function Neurobase() {
         theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
         onClick={handleBackButtonClick}
         tooltip="Back button"
+        icon={
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px'
+          }}>
+            <img src={BackIcon} alt="logo"/>
+            <div style={{
+              fontFamily: 'Open Sans',
+              fontWeight: '700',
+              fontStyle: 'normal',
+              fontSize: '23px',
+              lineHeight: '1',
+              letterSpacing: '0%',
+              textAlign: 'center',
+              color: '#4E3117',
+              textTransform: 'none',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              RETOUR
+            </div>          
+          </div>
+        }
       />
       
       {/* Archives Button với vị trí tương đối so với Menu Container Frame */}
