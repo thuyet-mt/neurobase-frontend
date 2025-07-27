@@ -1,12 +1,39 @@
 .progress-bar-container {
   position: relative;
   width: 239px;
-  height: 57px;
+  height: 82px; /* Tăng chiều cao để chứa text */
   opacity: 1;
   gap: 8px;
   display: flex;
+  flex-direction: column; /* Thay đổi thành column để text ở trên */
   align-items: center;
   justify-content: center;
+}
+
+/* Text bên trên Progress Bar */
+.progress-text {
+  width: 239px;
+  height: 25px;
+  
+  /* P3/Bold */
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  
+  color: #FAECD2;
+  
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  
+  margin-bottom: 0px; /* Giảm khoảng cách giữa text và progress bar */
 }
 
 .progress-bar {

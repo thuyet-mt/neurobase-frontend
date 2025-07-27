@@ -6,7 +6,8 @@ const ProgressBar = ({
   min = 0, 
   max = 100, 
   onChange = () => {},
-  disabled = false 
+  disabled = false,
+  text = "Progress" // Thêm prop text
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
@@ -71,6 +72,11 @@ const ProgressBar = ({
 
   return (
     <div className="progress-bar-container">
+      {/* Text bên trên Progress Bar */}
+      <div className="progress-text">
+        {text}
+      </div>
+      
       <div 
         className="progress-bar"
         ref={progressBarRef}

@@ -699,10 +699,8 @@ export default function Neurobase() {
         
         {/* ProgressBar Component */}
         <div style={{ 
-          marginTop: '20px',
-          left: '0px',
           display: 'flex',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           alignItems: 'center'
         }}>
           <ProgressBar 
@@ -710,6 +708,7 @@ export default function Neurobase() {
             onChange={handleProgressChange}
             min={0}
             max={100}
+            text="Ajuster la taille du curseur"
           />
         </div>
         
