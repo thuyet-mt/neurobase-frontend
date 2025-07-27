@@ -1,0 +1,128 @@
+.progress-bar-container {
+  position: relative;
+  width: 239px;
+  height: 57px;
+  opacity: 1;
+  gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar {
+  position: relative;
+  width: 239px;
+  height: 24px;
+  left: 0px;
+  top: 0.5px;
+  background: #D2B676;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #F5D180 0%, #C39E4A 50%, #866B2D 100%);
+  border-radius: 8px;
+  transition: width 0.1s ease;
+}
+
+.progress-thumb {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: 82px;
+  top: -8px;
+  cursor: grab;
+  user-select: none;
+  z-index: 10;
+}
+
+.progress-thumb:active {
+  cursor: grabbing;
+}
+
+.thumb-outer-glow {
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 4px;
+  
+  background: linear-gradient(180deg, rgba(102, 102, 102, 0.2) 0%, rgba(102, 102, 102, 0) 32.69%), 
+              linear-gradient(180deg, rgba(102, 102, 102, 0) 50%, rgba(102, 102, 102, 0.4) 100%), 
+              linear-gradient(0deg, rgba(29, 29, 29, 0.2), rgba(29, 29, 29, 0.2)), 
+              #1D1D1D;
+  background-blend-mode: plus-lighter, plus-lighter, color-burn, plus-lighter;
+  box-shadow: inset 8px 8px 4.5px -9px #FFFFFF, 
+              inset -6px -6px 3px -7px #B3B3B3, 
+              inset 1px 1px 0.5px -1px #B3B3B3, 
+              inset 0px 0px 11px rgba(242, 242, 242, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+}
+
+.thumb-middle-circle {
+  position: absolute;
+  width: 36.8px;
+  height: 36.8px;
+  left: 1.6px;
+  top: 1.6px;
+  
+  background: linear-gradient(289.25deg, #F5D180 9.32%, #C39E4A 26.97%, #866B2D 76.55%, #3C241B 91.09%);
+  border-radius: 36.8px;
+}
+
+.thumb-core-circle {
+  position: absolute;
+  width: 33px;
+  height: 33px;
+  left: 3.5px;
+  top: 3.5px;
+  
+  background: linear-gradient(209.93deg, #D2B676 10.11%, #B99239 22.51%, #A37817 78.45%, #8A6413 93.23%);
+  box-shadow: inset 0px 1.83333px 2.75px rgba(255, 255, 255, 0.6);
+  border-radius: 36.6667px;
+}
+
+/* Disabled state */
+.progress-bar-container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.progress-bar-container.disabled .progress-thumb {
+  cursor: not-allowed;
+}
+
+/* Hover effects */
+.progress-thumb:hover .thumb-outer-glow {
+  box-shadow: inset 8px 8px 4.5px -9px #FFFFFF, 
+              inset -6px -6px 3px -7px #B3B3B3, 
+              inset 1px 1px 0.5px -1px #B3B3B3, 
+              inset 0px 0px 11px rgba(242, 242, 242, 0.5),
+              0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus state for accessibility */
+.progress-bar:focus {
+  outline: 2px solid #F5D180;
+  outline-offset: 2px;
+}
+
+.progress-thumb:focus {
+  outline: 2px solid #F5D180;
+  outline-offset: 2px;
+} 

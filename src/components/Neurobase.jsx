@@ -7,12 +7,14 @@ import BackButton from "./BackButton";
 import ModeButton from "./ModeButton";
 import ContainerFrame from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
+import ProgressBar from "./ProgressBar";
 import { useTheme } from '../contexts/ThemeContext';
 
 export default function Neurobase() {
   const { currentMode } = useTheme();
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [progressValue, setProgressValue] = useState(35); // Initial value at 35%
   
   // Theme-based styling for main container
   const getThemeStyles = () => {
@@ -124,6 +126,15 @@ export default function Neurobase() {
     }, 3000);
     
     console.log("BackButton clicked!");
+  };
+
+  const handleProgressChange = (newValue) => {
+    setProgressValue(newValue);
+    setNotificationMessage(`Progress: ${Math.round(newValue)}% 📊`);
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 2000);
   };
 
   return (
@@ -315,7 +326,7 @@ export default function Neurobase() {
 <rect width="62" height="62" fill="white" transform="translate(30 1.00003)"/>
 </clipPath>
 </defs>
-</svg>
+            </svg>
 
           }
         />
@@ -367,7 +378,7 @@ export default function Neurobase() {
 <stop offset="1" stop-color="#FEE69B" stop-opacity="0"/>
 </linearGradient>
 </defs>
-</svg>
+            </svg>
 
           }
         />
@@ -609,7 +620,24 @@ export default function Neurobase() {
       </div>
       <ContainerFrame>
         {/* Text indicator để xác nhận ContainerFrame */}
-        <div style={{ color: 'black', fontSize: '12px' }}>ContainerFrame Active</div>
+        {/* <div style={{ color: 'black', fontSize: '12px' }}>ContainerFrame Active</div> */}
+        
+        {/* ProgressBar Component */}
+        <div style={{ 
+          marginTop: '20px',
+          left: '0px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <ProgressBar 
+            value={progressValue}
+            onChange={handleProgressChange}
+            min={0}
+            max={100}
+          />
+        </div>
+        
         {/* ModeButton với vị trí tương đối */}
         {/* FunctionButton */}
         {/* Ví dụ thêm các component khác:
