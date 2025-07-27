@@ -3,7 +3,6 @@ import "./Neurobase.css";
 import backgroundImg from "../assets/background1.png";
 import logoImg from "../assets/logo_neuro.png";
 import MenuButton from "./MenuButton";
-import BackButton from "./BackButton";
 import ModeButton from "./ModeButton";
 import ContainerFrame from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
@@ -18,6 +17,7 @@ import CommandesIcon from "../assets/commandes_icon.svg"
 import EmailsIcon from "../assets/email_icon.svg"
 import AgendaIcon from "../assets/agenda_icon.svg"
 import ColisIcon from "../assets/colis_icon.svg"
+import BackButton from "./BackButton";
 
 export default function Neurobase() {
   const { currentMode } = useTheme();
@@ -182,7 +182,12 @@ export default function Neurobase() {
       {/* Menu Button ở góc trên bên phải */}
       <MenuButton />
       {/* Back Button */}
-      <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} />
+      {/* <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} /> */}
+      <BackButton 
+        theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
+        onClick={handleBackButtonClick}
+        tooltip="Back button"
+      />
       
       {/* Archives Button với vị trí tương đối so với Menu Container Frame */}
       <div style={{
