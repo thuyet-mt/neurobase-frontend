@@ -150,45 +150,29 @@ export default function Neurobase() {
     }, 2000);
   };
 
+  // Responsive text styles helper
+  const getResponsiveTextStyle = (baseSize = 23) => ({
+    fontFamily: 'Open Sans',
+    fontWeight: '700',
+    fontStyle: 'normal',
+    fontSize: `clamp(${Math.max(10, baseSize * 0.6)}px, ${Math.max(1.5, baseSize * 0.1)}vw, ${baseSize}px)`,
+    lineHeight: '100%',
+    letterSpacing: '0%',
+    textAlign: 'center',
+    color: '#4E3117',
+    textTransform: 'none'
+  });
+
   return (
     <div className="neurobase-root" style={getThemeStyles()}>
       <div className="neurobase-bg" />
       <div className="neurobase-image-bg">
         <img src={backgroundImg} alt="background" />
       </div>
-      <div className="neurobase-logo" style={{
-        position: 'absolute',
-        width: '120px',
-        height: '120px',
-        top: '44px',
-        left: '44px',
-        transform: 'rotate(0deg)',
-        opacity: 1
-      }}>
-        <img src={logoImg} alt="logo" style={{
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain'
-        }} />
+      <div className="neurobase-logo">
+        <img src={logoImg} alt="logo" />
       </div>
-      <h1 className="neurobase-title" style={{
-        position: 'absolute',
-        width: '279px',
-        left: '50%',
-        top: '7.03%',
-        bottom: '86.72%',
-        transform: 'translateX(-50%)',
-        fontFamily: 'Open Sans',
-        fontStyle: 'normal',
-        fontWeight: '700',
-        fontSize: '46px',
-        lineHeight: '139%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        color: '#DFAA2E'
-      }}>NEUROBASE</h1>
+      <h1 className="neurobase-title">NEUROBASE</h1>
       {/* Menu Button ở góc trên bên phải */}
       <MenuButton />
       {/* Back Button */}
@@ -206,15 +190,8 @@ export default function Neurobase() {
           }}>
             <img src={BackIcon} alt="logo"/>
             <div style={{
-              fontFamily: 'Open Sans',
-              fontWeight: '700',
-              fontStyle: 'normal',
-              fontSize: '23px',
+              ...getResponsiveTextStyle(23),
               lineHeight: '1',
-              letterSpacing: '0%',
-              textAlign: 'center',
-              color: '#4E3117',
-              textTransform: 'none',
               display: 'flex',
               alignItems: 'center'
             }}>
@@ -225,22 +202,13 @@ export default function Neurobase() {
       />
       
       {/* Archives Button với vị trí tương đối so với Menu Container Frame */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 640px)', /* Menu Container top + 640px */
-        left: 'calc(50% - 840px/2 + 320px)', /* Menu Container left + 320px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-archives">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleGoldenButtonClick}
           tooltip="Golden Button - Click me! ✨"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -250,17 +218,7 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={ArchivesIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 ARCHIVES
               </div>
             </div>
@@ -269,22 +227,13 @@ export default function Neurobase() {
       </div>
 
       {/* Telephone Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px)', /* Menu Container top */
-        left: 'calc(50% - 840px/2 + 320px)', /* Menu Container left + 320px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-telephone">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleTelephoneButtonClick}
           tooltip="Telephone Button - Click me! 📞"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -294,30 +243,10 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={TelephoneIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 TÉLÉPHONE
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 & STANDARD
               </div>              
             </div>
@@ -326,22 +255,13 @@ export default function Neurobase() {
       </div>
 
       {/* Reunion Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 320px)', /* Menu Container top + 320px */
-        left: 'calc(50% - 840px/2 + 640px)', /* Menu Container left + 640px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-reunion">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleReunionButtonClick}
           tooltip="Reunion Button - Click me! 👥"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -351,30 +271,10 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={ReunionIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 REUNIONS
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 & SALLES
               </div>              
             </div>
@@ -383,22 +283,13 @@ export default function Neurobase() {
       </div>
 
       {/* Accueil Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 320px)', /* Menu Container top + 320px */
-        left: 'calc(50% - 840px/2)', /* Menu Container left */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-accueil">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleAccueilButtonClick}
           tooltip="Accueil Button - Click me! 🏠"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -408,30 +299,10 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={AccueilIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 ACCUEIL
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 VISITEURS
               </div>              
             </div>
@@ -440,22 +311,13 @@ export default function Neurobase() {
       </div>
 
       {/* Commandes Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 540px)', /* Menu Container top + 540px */
-        left: 'calc(50% - 840px/2 + 100px)', /* Menu Container left + 100px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-commandes">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleCommandesButtonClick}
           tooltip="Commandes Button - Click me! 📋"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -465,30 +327,10 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={CommandesIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 COMMANDES
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 & STOCKS
               </div>              
             </div>
@@ -497,22 +339,13 @@ export default function Neurobase() {
       </div>
 
       {/* Emails Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 100px)', /* Menu Container top + 100px */
-        left: 'calc(50% - 840px/2 + 100px)', /* Menu Container left + 100px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-emails">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleEmailsButtonClick}
           tooltip="Emails Button - Click me! 📧"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -522,30 +355,10 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={EmailsIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 EMAILS
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 & MESSAGERIE
               </div>              
             </div>
@@ -554,22 +367,13 @@ export default function Neurobase() {
       </div>
 
       {/* Agenda Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 540px)', /* Menu Container top + 540px */
-        left: 'calc(50% - 840px/2 + 540px)', /* Menu Container left + 540px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-agenda">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleAgendaButtonClick}
           tooltip="Agenda Button - Click me! 📅"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -579,43 +383,13 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={AgendaIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 AGENDA
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 & RENDEZ- 
               </div>         
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                  VOUS
               </div>       
             </div>
@@ -624,22 +398,13 @@ export default function Neurobase() {
       </div>
 
       {/* Colis Button */}
-      <div style={{
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        top: 'calc(50% - 840px/2 + 68px + 100px)', /* Menu Container top + 100px */
-        left: 'calc(50% - 840px/2 + 540px)', /* Menu Container left + 540px */
-        zIndex: 10,
-        opacity: 1,
-        transform: 'rotate(0deg)'
-      }}>
+      <div className="button-colis">
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
           onClick={handleColisButtonClick}
           tooltip="Colis Button - Click me! 📦"
           tooltipPosition="top"
-          size={200}
+          size="100%"
           icon={
             <div style={{
               display: 'flex',
@@ -649,30 +414,10 @@ export default function Neurobase() {
               gap: '10px'
             }}>
               <img src={ColisIcon} alt="logo"/>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'normal',
-                fontSize: '23px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(23)}>
                 COLIS
               </div>
-              <div style={{
-                fontFamily: 'Open Sans',
-                fontWeight: '700',
-                fontStyle: 'Bold',
-                fontSize: '16px',
-                lineHeight: '100%',
-                letterSpacing: '0%',
-                textAlign: 'center',
-                color: '#4E3117',
-                textTransform: 'none'
-              }}>
+              <div style={getResponsiveTextStyle(16)}>
                 & COURRIERS
               </div>              
             </div>
@@ -681,12 +426,7 @@ export default function Neurobase() {
       </div>
       
       {/* Container Frame để chứa các component */}
-      <div style={{
-        position: 'absolute',
-        bottom: '64px',
-        right: '64px',
-        zIndex: 10
-      }}>
+      <div className="button-mode">
         <ModeButton
           size={80}
           tooltip="Switch Theme Mode"
@@ -721,14 +461,14 @@ export default function Neurobase() {
         */}
       </ContainerFramePB>
       
-      {/* Menu Container Frame với kích thước 840x840px */}
+      {/* Menu Container Frame với kích thước responsive */}
       <ContainerFrameMenu
         style={{
           position: 'absolute',
-          width: '840px',
-          height: '840px',
-          left: 'calc(50% - 840px/2)',
-          top: 'calc(50% - 840px/2 + 68px)',
+          width: 'clamp(600px, 60vw, 840px)',
+          height: 'clamp(600px, 60vw, 840px)',
+          left: 'calc(50% - clamp(600px, 60vw, 840px)/2)',
+          top: 'calc(50% - clamp(600px, 60vw, 840px)/2 + clamp(40px, 4vw, 68px))',
           zIndex: 5
         }}
       >

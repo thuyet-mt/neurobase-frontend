@@ -1,27 +1,26 @@
 .progress-bar-container {
   position: relative;
-  width: 239px;
-  height: 82px; /* Tăng chiều cao để chứa text */
+  width: clamp(200px, 20vw, 239px);
+  height: clamp(60px, 8vh, 82px);
   opacity: 1;
-  gap: 8px;
+  gap: clamp(6px, 1vw, 8px);
   display: flex;
-  flex-direction: column; /* Thay đổi thành column để text ở trên */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
 /* Text bên trên Progress Bar */
 .progress-text {
-  width: 239px;
-  height: 25px;
+  width: clamp(200px, 20vw, 239px);
+  height: clamp(20px, 3vh, 25px);
   
   /* P3/Bold */
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  font-size: 18px;
-  line-height: 25px;
-  /* identical to box height */
+  font-size: clamp(14px, 2vw, 18px);
+  line-height: clamp(20px, 3vh, 25px);
   display: flex;
   align-items: center;
   text-align: center;
@@ -33,17 +32,17 @@
   order: 0;
   flex-grow: 0;
   
-  margin-bottom: 0px; /* Giảm khoảng cách giữa text và progress bar */
+  margin-bottom: 0px;
 }
 
 .progress-bar {
   position: relative;
-  width: 239px;
-  height: 24px;
+  width: clamp(200px, 20vw, 239px);
+  height: clamp(18px, 3vh, 24px);
   left: 0px;
   top: 0.5px;
   background: #D2B676;
-  border-radius: 8px;
+  border-radius: clamp(6px, 1vw, 8px);
   cursor: pointer;
   overflow: visible;
 }
@@ -54,19 +53,21 @@
   left: 0;
   height: 100%;
   background: linear-gradient(90deg, #F5D180 0%, #C39E4A 50%, #866B2D 100%);
-  border-radius: 8px;
+  border-radius: clamp(6px, 1vw, 8px);
   transition: width 0.1s ease;
 }
 
 .progress-thumb {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 4vw, 40px);
+  height: clamp(32px, 4vw, 40px);
   left: 82px;
-  top: -8px;
+  top: clamp(-6px, -1vh, -8px);
   cursor: grab;
   user-select: none;
   z-index: 10;
+  min-width: 44px; /* Touch target minimum */
+  min-height: 44px;
 }
 
 .progress-thumb:active {
@@ -85,8 +86,8 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 6px 12px;
-  gap: 4px;
+  padding: clamp(4px, 1vw, 6px) clamp(8px, 1.5vw, 12px);
+  gap: clamp(3px, 0.5vw, 4px);
   
   background: linear-gradient(180deg, rgba(102, 102, 102, 0.2) 0%, rgba(102, 102, 102, 0) 32.69%), 
               linear-gradient(180deg, rgba(102, 102, 102, 0) 50%, rgba(102, 102, 102, 0.4) 100%), 
@@ -98,33 +99,26 @@
               inset 1px 1px 0.5px -1px #B3B3B3, 
               inset 0px 0px 11px rgba(242, 242, 242, 0.5);
   backdrop-filter: blur(10px);
-  border-radius: 24px;
+  border-radius: 50%;
 }
 
 .thumb-middle-circle {
   position: absolute;
-  width: 36.8px;
-  height: 36.8px;
-  left: 1.6px;
-  top: 1.6px;
-  
+  width: clamp(24px, 3vw, 30px);
+  height: clamp(24px, 3vw, 30px);
   background: linear-gradient(289.25deg, #F5D180 9.32%, #C39E4A 26.97%, #866B2D 76.55%, #3C241B 91.09%);
-  border-radius: 36.8px;
+  border-radius: 50%;
 }
 
 .thumb-core-circle {
   position: absolute;
-  width: 33px;
-  height: 33px;
-  left: 3.5px;
-  top: 3.5px;
-  
+  width: clamp(18px, 2.5vw, 22px);
+  height: clamp(18px, 2.5vw, 22px);
   background: linear-gradient(209.93deg, #D2B676 10.11%, #B99239 22.51%, #A37817 78.45%, #8A6413 93.23%);
-  box-shadow: inset 0px 1.83333px 2.75px rgba(255, 255, 255, 0.6);
-  border-radius: 36.6667px;
+  box-shadow: inset 0px 14px 21px rgba(255,255,255,0.6);
+  border-radius: 50%;
 }
 
-/* Disabled state */
 .progress-bar-container.disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -134,16 +128,13 @@
   cursor: not-allowed;
 }
 
-/* Hover effects */
 .progress-thumb:hover .thumb-outer-glow {
   box-shadow: inset 8px 8px 4.5px -9px #FFFFFF, 
               inset -6px -6px 3px -7px #B3B3B3, 
               inset 1px 1px 0.5px -1px #B3B3B3, 
-              inset 0px 0px 11px rgba(242, 242, 242, 0.5),
-              0px 4px 12px rgba(0, 0, 0, 0.2);
+              inset 0px 0px 15px rgba(242, 242, 242, 0.7);
 }
 
-/* Focus state for accessibility */
 .progress-bar:focus {
   outline: 2px solid #F5D180;
   outline-offset: 2px;
@@ -152,4 +143,71 @@
 .progress-thumb:focus {
   outline: 2px solid #F5D180;
   outline-offset: 2px;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .progress-bar-container {
+    width: clamp(180px, 25vw, 200px);
+    height: clamp(50px, 7vh, 60px);
+  }
+  
+  .progress-text {
+    width: clamp(180px, 25vw, 200px);
+    font-size: clamp(12px, 1.8vw, 14px);
+  }
+  
+  .progress-bar {
+    width: clamp(180px, 25vw, 200px);
+    height: clamp(16px, 2.5vh, 18px);
+  }
+  
+  .progress-thumb {
+    width: clamp(28px, 3.5vw, 32px);
+    height: clamp(28px, 3.5vw, 32px);
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-bar-container {
+    width: clamp(160px, 30vw, 180px);
+    height: clamp(45px, 6vh, 50px);
+  }
+  
+  .progress-text {
+    width: clamp(160px, 30vw, 180px);
+    font-size: clamp(11px, 1.6vw, 12px);
+  }
+  
+  .progress-bar {
+    width: clamp(160px, 30vw, 180px);
+    height: clamp(14px, 2vh, 16px);
+  }
+  
+  .progress-thumb {
+    width: clamp(24px, 3vw, 28px);
+    height: clamp(24px, 3vw, 28px);
+  }
+}
+
+@media (max-width: 360px) {
+  .progress-bar-container {
+    width: clamp(140px, 35vw, 160px);
+    height: clamp(40px, 5vh, 45px);
+  }
+  
+  .progress-text {
+    width: clamp(140px, 35vw, 160px);
+    font-size: clamp(10px, 1.4vw, 11px);
+  }
+  
+  .progress-bar {
+    width: clamp(140px, 35vw, 160px);
+    height: clamp(12px, 1.8vh, 14px);
+  }
+  
+  .progress-thumb {
+    width: clamp(20px, 2.5vw, 24px);
+    height: clamp(20px, 2.5vw, 24px);
+  }
 } 

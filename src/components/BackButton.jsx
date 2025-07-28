@@ -101,12 +101,11 @@ const BackButton = ({
   
   const styles = themeStyles[theme] || themeStyles.gold;
 
-  // Button dimensions are now fixed according to the design
-  // Outer button: positioned absolutely with percentages
-  // Middle layer: 175px x 68px
-  // Core layer: 161px x 56px
-
-  // Tooltip is now fixed to appear below the button
+  // Button dimensions according to the original design
+  // Group 3: 183px x 76px
+  // Rectangle 40 (middle): 175px x 68px
+  // Rectangle 39 (core): 161px x 56px
+  // All layers maintain responsive positioning with fixed dimensions
 
   const tooltipContainerStyle = {
     position: 'absolute',
@@ -143,10 +142,8 @@ const BackButton = ({
       onMouseLeave={() => setIsHovered(false)}
       style={{
         position: 'absolute',
-        left: '2.5%',
-        right: '84.79%',
-        top: '46.29%',
-        bottom: '46.29%',
+        left: '36px',
+        top: 'calc(50% - 76px/2)',
         cursor: 'pointer',
         transform: isHovered ? 'scale(1.05)' : 'scale(1)',
         transition: 'transform 0.3s ease-in-out',
@@ -155,10 +152,11 @@ const BackButton = ({
         justifyContent: 'center',
         alignItems: 'center',
         boxSizing: 'border-box',
-        padding: '30px 60px',
         gap: '20px',
         borderRadius: '120px',
         zIndex: 10,
+        width: '183px',
+        height: '76px',
       }}
     >
       {/* Outer glow layer */}
@@ -176,9 +174,8 @@ const BackButton = ({
         position: 'absolute',
         width: '175px',
         height: '68px',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
+        left: '4px',
+        top: '4px',
         borderRadius: '184px',
         zIndex: 2,
         pointerEvents: 'none',
@@ -191,9 +188,8 @@ const BackButton = ({
           position: 'absolute',
           width: '161px',
           height: '56px',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
+          left: '11px',
+          top: '10px',
           borderRadius: '183.333px',
           display: 'flex',
           alignItems: 'center',
@@ -239,8 +235,9 @@ const BackButton = ({
           )}
           {text && (
             <span style={{ 
-              fontSize: '16px', 
-              fontWeight: '500',
+              fontSize: '20px', 
+              fontWeight: '700',
+              lineHeight: '27px',
               color: styles.iconColor 
             }}>
               {text}

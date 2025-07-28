@@ -100,9 +100,11 @@ const GoldenButton = ({
   
   const styles = themeStyles[theme] || themeStyles.gold;
 
-  const outerSize = size;
-  const innerSize = size * 0.92;
-  const coreSize = size * 0.83;
+  // Handle responsive size
+  const isResponsiveSize = typeof size === 'string' && size.includes('%');
+  const outerSize = isResponsiveSize ? '100%' : size;
+  const innerSize = isResponsiveSize ? '92%' : size * 0.92;
+  const coreSize = isResponsiveSize ? '83%' : size * 0.83;
 
   // --- DYNAMIC TOOLTIP POSITION LOGIC ---
   const getPositionStyles = () => {
@@ -251,8 +253,8 @@ const GoldenButton = ({
         {icon && (
           <div
             style={{
-              width: coreSize * 0.77,
-              height: coreSize * 0.77,
+              width: isResponsiveSize ? '77%' : coreSize * 0.77,
+              height: isResponsiveSize ? '77%' : coreSize * 0.77,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

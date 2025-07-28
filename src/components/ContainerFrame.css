@@ -4,22 +4,22 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: 0px;
-  gap: 16px;
+  padding: clamp(8px, 1vw, 16px);
+  gap: clamp(12px, 2vw, 16px);
 
   position: absolute;
-  width: 337px;
-  height: 80px;
-  right: 64px;
-  top: 880px;
+  width: clamp(280px, 25vw, 337px);
+  height: clamp(60px, 8vh, 80px);
+  right: clamp(40px, 4vw, 64px);
+  bottom: clamp(40px, 4vw, 64px);
   
   /* Tạm thời thêm border để dễ nhận biết */
   /* border: 2px dashed #ff0000; */
   /* background-color: rgba(255, 0, 0, 0.1); */
   
   /* Đảm bảo không vượt ra ngoài background */
-  max-width: calc(1440px - 128px); /* 1440px - (64px * 2) */
-  max-height: calc(1024px - 176px); /* 1024px - (880px + 80px) */
+  max-width: calc(100vw - clamp(80px, 8vw, 128px));
+  max-height: calc(100vh - clamp(120px, 12vh, 176px));
 }
 
 /* Container cho ModeButton */
@@ -48,4 +48,30 @@
 .mode-button-container.right {
   margin-left: auto;
   margin-right: 0;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .container-frame {
+    width: clamp(250px, 30vw, 280px);
+    height: clamp(50px, 6vh, 60px);
+    right: clamp(20px, 3vw, 40px);
+    bottom: clamp(20px, 3vw, 40px);
+  }
+}
+
+@media (max-width: 480px) {
+  .container-frame {
+    width: clamp(200px, 35vw, 250px);
+    height: clamp(40px, 5vh, 50px);
+    right: clamp(10px, 2vw, 20px);
+    bottom: clamp(10px, 2vw, 20px);
+  }
+}
+
+@media (max-width: 360px) {
+  .container-frame {
+    width: clamp(180px, 40vw, 200px);
+    height: clamp(35px, 4vh, 40px);
+  }
 } 
