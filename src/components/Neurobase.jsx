@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Neurobase.css";
 import backgroundImg from "../assets/background1.png";
 import logoImg from "../assets/logo_neuro.png";
@@ -22,13 +22,52 @@ import AgendaIcon from "../assets/agenda_icon.svg"
 import ColisIcon from "../assets/colis_icon.svg"
 import BackButton from "./BackButton";
 import BackIcon from "../assets/back_icon.svg";
+// Import WebChannel Service
+import webChannelService from '../services/WebChannelService';
 
 export default function Neurobase() {
   const { currentMode } = useTheme();
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [progressValue, setProgressValue] = useState(35); // Initial value at 35%
-  
+  const [isWebChannelReady, setIsWebChannelReady] = useState(false);
+
+  // Khởi tạo WebChannel khi component mount
+  useEffect(() => {
+    const initializeWebChannel = async () => {
+      try {
+        await webChannelService.initialize();
+        setIsWebChannelReady(true);
+        console.log('✅ WebChannel ready for use');
+      } catch (error) {
+        console.error('❌ Failed to initialize WebChannel:', error);
+        setIsWebChannelReady(false);
+      }
+    };
+
+    initializeWebChannel();
+  }, []);
+
+  // Helper function để hiển thị notification
+  const showNotificationWithMessage = (message) => {
+    setNotificationMessage(message);
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+  };
+
+  // Helper function để gọi slot với error handling
+  const callSlotWithNotification = async (slotMethod, successMessage, errorMessage) => {
+    try {
+      await slotMethod();
+      showNotificationWithMessage(successMessage);
+    } catch (error) {
+      console.error('Slot call failed:', error);
+      showNotificationWithMessage(errorMessage || 'Action failed');
+    }
+  };
+
   // Theme-based styling for main container
   const getThemeStyles = () => {
     switch (currentMode) {
@@ -52,102 +91,107 @@ export default function Neurobase() {
     }
   };
 
+  // === Handler functions với WebChannel integration ===
+
   const handleGoldenButtonClick = () => {
-    // Hiển thị thông báo
-    setNotificationMessage("Golden Button đã được kích hoạt! ✨");
-    setShowNotification(true);
-    
-    // Tự động ẩn thông báo sau 3 giây
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    
-    console.log("GoldenButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openArchives(),
+      "Archives opened successfully! 📁",
+      "Failed to open Archives"
+    );
   };
 
   const handleTelephoneButtonClick = () => {
-    setNotificationMessage("Telephone Button đã được kích hoạt! 📞");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("TelephoneButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openTelephone(),
+      "Telephone system opened! 📞",
+      "Failed to open Telephone system"
+    );
   };
 
   const handleReunionButtonClick = () => {
-    setNotificationMessage("Reunion Button đã được kích hoạt! 👥");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("ReunionButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openReunions(),
+      "Reunions & Salles opened! 👥",
+      "Failed to open Reunions & Salles"
+    );
   };
 
   const handleAccueilButtonClick = () => {
-    setNotificationMessage("Accueil Button đã được kích hoạt! 🏠");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("AccueilButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openAccueil(),
+      "Accueil opened! 🏠",
+      "Failed to open Accueil"
+    );
   };
 
   const handleCommandesButtonClick = () => {
-    setNotificationMessage("Commandes Button đã được kích hoạt! 📋");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("CommandesButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openCommandes(),
+      "Commandes opened! 📋",
+      "Failed to open Commandes"
+    );
   };
 
   const handleEmailsButtonClick = () => {
-    setNotificationMessage("Emails Button đã được kích hoạt! 📧");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("EmailsButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openEmails(),
+      "Emails opened! 📧",
+      "Failed to open Emails"
+    );
   };
 
   const handleAgendaButtonClick = () => {
-    setNotificationMessage("Agenda Button đã được kích hoạt! 📅");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("AgendaButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openAgenda(),
+      "Agenda opened! 📅",
+      "Failed to open Agenda"
+    );
   };
 
   const handleColisButtonClick = () => {
-    setNotificationMessage("Colis Button đã được kích hoạt! 📦");
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    console.log("ColisButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.openColis(),
+      "Colis opened! 📦",
+      "Failed to open Colis"
+    );
   };
 
   const handleBackButtonClick = () => {
-    // Hiển thị thông báo
-    setNotificationMessage("Back Button đã được kích hoạt! ⬅️");
-    setShowNotification(true);
-    
-    // Tự động ẩn thông báo sau 3 giây
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 3000);
-    
-    console.log("BackButton clicked!");
+    callSlotWithNotification(
+      () => webChannelService.goBack(),
+      "Navigating back... ⬅️",
+      "Failed to navigate back"
+    );
   };
 
   const handleProgressChange = (newValue) => {
     setProgressValue(newValue);
-    setNotificationMessage(`Progress: ${Math.round(newValue)}% 📊`);
-    setShowNotification(true);
-    setTimeout(() => {
-      setShowNotification(false);
-    }, 2000);
+    
+    // Gọi slot để cập nhật progress
+    callSlotWithNotification(
+      () => webChannelService.updateProgress(newValue),
+      `Progress updated: ${Math.round(newValue)}% 📊`,
+      "Failed to update progress"
+    );
+  };
+
+  // === Additional handlers cho Menu và Mode buttons ===
+  
+  const handleMenuButtonClick = () => {
+    callSlotWithNotification(
+      () => webChannelService.openMenu(),
+      "Menu opened! 📋",
+      "Failed to open menu"
+    );
+  };
+
+  const handleModeButtonClick = (mode) => {
+    callSlotWithNotification(
+      () => webChannelService.changeMode(mode),
+      `Mode changed to: ${mode} 🎨`,
+      "Failed to change mode"
+    );
   };
 
   // Responsive text styles helper
@@ -174,7 +218,7 @@ export default function Neurobase() {
       </div>
       <h1 className="neurobase-title">NEUROBASE</h1>
       {/* Menu Button ở góc trên bên phải */}
-      <MenuButton />
+      <MenuButton onClick={handleMenuButtonClick} />
       {/* Back Button */}
       {/* <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} /> */}
       <BackButton 
@@ -431,6 +475,7 @@ export default function Neurobase() {
           size={80}
           tooltip="Switch Theme Mode"
           tooltipPosition="top"
+          onModeChange={handleModeButtonClick}
         />
       </div>
       <ContainerFramePB>
