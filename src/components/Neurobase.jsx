@@ -733,7 +733,7 @@ export default function Neurobase() {
         }}
       >
         {/* Text indicator để xác nhận Menu ContainerFrame */}
-        <div style={{ 
+        {/* <div style={{ 
           color: 'black', 
           fontSize: '16px', 
           fontWeight: 'bold',
@@ -742,7 +742,7 @@ export default function Neurobase() {
           padding: '20px'
         }}>
           Menu Container Frame (840x840px)
-        </div>
+        </div> */}
         {/* Có thể thêm các component menu ở đây */}
       </ContainerFrameMenu>
       
