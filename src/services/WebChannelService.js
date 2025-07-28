@@ -147,6 +147,11 @@ class WebChannelService {
   async logAction(action, details = {}) {
     return this.callSlot('logAction', action, JSON.stringify(details));
   }
+
+  // === Test Methods ===
+  async testCloseWindow() {
+    return this.callSlot('testCloseWindow');
+  }
 }
 
 // Tạo instance singleton

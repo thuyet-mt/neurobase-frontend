@@ -194,6 +194,16 @@ export default function Neurobase() {
     );
   };
 
+  // === Test Handlers ===
+  
+  const handleTestClose = () => {
+    callSlotWithNotification(
+      () => webChannelService.testCloseWindow(),
+      "Testing window close... 🧪",
+      "Failed to test close"
+    );
+  };
+
   // Responsive text styles helper
   const getResponsiveTextStyle = (baseSize = 23) => ({
     fontFamily: 'Open Sans',
