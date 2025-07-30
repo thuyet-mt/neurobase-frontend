@@ -11,6 +11,7 @@ import ContainerFrameMenu from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
 import ProgressBar from "./ProgressBar";
 import { useTheme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
 // import Logo from "../assets/archives_icon.png";
 import ArchivesIcon from "../assets/archives_icon.svg";
 import TelephoneIcon from "../assets/telephone_icon.svg";
@@ -27,6 +28,7 @@ import webChannelService from '../services/WebChannelService';
 
 export default function Neurobase() {
   const { currentMode } = useTheme();
+  const { getText, getTextWithParams, loading, error } = useLanguage();
   const [showNotification, setShowNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [progressValue, setProgressValue] = useState(35); // Initial value at 35%
@@ -96,72 +98,72 @@ export default function Neurobase() {
   const handleGoldenButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openArchives(),
-      "Archives opened successfully! 📁",
-      "Failed to open Archives"
+      getText("archives_opened"),
+      getText("archives_failed")
     );
   };
 
   const handleTelephoneButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openTelephone(),
-      "Telephone system opened! 📞",
-      "Failed to open Telephone system"
+      getText("telephone_opened"),
+      getText("telephone_failed")
     );
   };
 
   const handleReunionButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openReunions(),
-      "Reunions & Salles opened! 👥",
-      "Failed to open Reunions & Salles"
+      getText("reunions_opened"),
+      getText("reunions_failed")
     );
   };
 
   const handleAccueilButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openAccueil(),
-      "Accueil opened! 🏠",
-      "Failed to open Accueil"
+      getText("accueil_opened"),
+      getText("accueil_failed")
     );
   };
 
   const handleCommandesButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openCommandes(),
-      "Commandes opened! 📋",
-      "Failed to open Commandes"
+      getText("commandes_opened"),
+      getText("commandes_failed")
     );
   };
 
   const handleEmailsButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openEmails(),
-      "Emails opened! 📧",
-      "Failed to open Emails"
+      getText("emails_opened"),
+      getText("emails_failed")
     );
   };
 
   const handleAgendaButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openAgenda(),
-      "Agenda opened! 📅",
-      "Failed to open Agenda"
+      getText("agenda_opened"),
+      getText("agenda_failed")
     );
   };
 
   const handleColisButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openColis(),
-      "Colis opened! 📦",
-      "Failed to open Colis"
+      getText("colis_opened"),
+      getText("colis_failed")
     );
   };
 
   const handleBackButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.goBack(),
-      "Navigating back... ⬅️",
-      "Failed to navigate back"
+      getText("navigating_back"),
+      getText("back_failed")
     );
   };
 
@@ -171,8 +173,8 @@ export default function Neurobase() {
     // Gọi slot để cập nhật progress
     callSlotWithNotification(
       () => webChannelService.updateProgress(newValue),
-      `Progress updated: ${Math.round(newValue)}% 📊`,
-      "Failed to update progress"
+      getTextWithParams("progress_updated", { value: Math.round(newValue) }),
+      getText("progress_failed")
     );
   };
 
@@ -181,16 +183,16 @@ export default function Neurobase() {
   const handleMenuButtonClick = () => {
     callSlotWithNotification(
       () => webChannelService.openMenu(),
-      "Menu opened! 📋",
-      "Failed to open menu"
+      getText("menu_opened"),
+      getText("menu_failed")
     );
   };
 
   const handleModeButtonClick = (mode) => {
     callSlotWithNotification(
       () => webChannelService.changeMode(mode),
-      `Mode changed to: ${mode} 🎨`,
-      "Failed to change mode"
+      getTextWithParams("mode_changed", { mode }),
+      getText("mode_failed")
     );
   };
 
@@ -199,8 +201,8 @@ export default function Neurobase() {
   const handleTestClose = () => {
     callSlotWithNotification(
       () => webChannelService.testCloseWindow(),
-      "Testing window close... 🧪",
-      "Failed to test close"
+      getText("testing_close"),
+      getText("test_failed")
     );
   };
 
@@ -217,6 +219,42 @@ export default function Neurobase() {
     textTransform: 'none'
   });
 
+  // Show loading state if language data is still loading
+  if (loading) {
+    return (
+      <div className="neurobase-root" style={getThemeStyles()}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh',
+          color: '#4E3117',
+          fontSize: '18px'
+        }}>
+          Loading language data...
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state if language loading failed
+  if (error) {
+    return (
+      <div className="neurobase-root" style={getThemeStyles()}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh',
+          color: '#ff0000',
+          fontSize: '18px'
+        }}>
+          Error loading language data: {error}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="neurobase-root" style={getThemeStyles()}>
       <div className="neurobase-bg" />
@@ -226,7 +264,7 @@ export default function Neurobase() {
       <div className="neurobase-logo">
         <img src={logoImg} alt="logo" />
       </div>
-      <h1 className="neurobase-title">NEUROBASE</h1>
+      <h1 className="neurobase-title">{getText("title")}</h1>
       {/* Menu Button ở góc trên bên phải */}
       <MenuButton onClick={handleMenuButtonClick} />
       {/* Back Button */}
@@ -234,7 +272,7 @@ export default function Neurobase() {
       <BackButton 
         theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
         onClick={handleBackButtonClick}
-        tooltip="Back button"
+        tooltip={getText("back")}
         icon={
           <div style={{
             display: 'flex',
@@ -249,7 +287,7 @@ export default function Neurobase() {
               display: 'flex',
               alignItems: 'center'
             }}>
-              RETOUR
+              {getText("back")}
             </div>          
           </div>
         }
@@ -273,7 +311,7 @@ export default function Neurobase() {
             }}>
               <img src={ArchivesIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                ARCHIVES
+                {getText("archives")}
               </div>
             </div>
           }
@@ -298,11 +336,8 @@ export default function Neurobase() {
             }}>
               <img src={TelephoneIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                TÉLÉPHONE
+                {getText("telephone")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                & STANDARD
-              </div>              
             </div>
           }
         />
@@ -326,11 +361,8 @@ export default function Neurobase() {
             }}>
               <img src={ReunionIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                REUNIONS
+                {getText("reunions")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                & SALLES
-              </div>              
             </div>
           }
         />
@@ -354,11 +386,8 @@ export default function Neurobase() {
             }}>
               <img src={AccueilIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                ACCUEIL
+                {getText("accueil")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                VISITEURS
-              </div>              
             </div>
           }
         />
@@ -382,11 +411,8 @@ export default function Neurobase() {
             }}>
               <img src={CommandesIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                COMMANDES
+                {getText("commandes")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                & STOCKS
-              </div>              
             </div>
           }
         />
@@ -410,11 +436,8 @@ export default function Neurobase() {
             }}>
               <img src={EmailsIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                EMAILS
+                {getText("emails")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                & MESSAGERIE
-              </div>              
             </div>
           }
         />
@@ -438,14 +461,8 @@ export default function Neurobase() {
             }}>
               <img src={AgendaIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                AGENDA
+                {getText("agenda")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                & RENDEZ- 
-              </div>         
-              <div style={getResponsiveTextStyle(16)}>
-                 VOUS
-              </div>       
             </div>
           }
         />
@@ -469,11 +486,8 @@ export default function Neurobase() {
             }}>
               <img src={ColisIcon} alt="logo"/>
               <div style={getResponsiveTextStyle(23)}>
-                COLIS
+                {getText("colis")}
               </div>
-              <div style={getResponsiveTextStyle(16)}>
-                & COURRIERS
-              </div>              
             </div>
           }
         />
@@ -503,7 +517,7 @@ export default function Neurobase() {
             onChange={handleProgressChange}
             min={0}
             max={100}
-            text="Ajuster la taille du curseur"
+            text={getText("adjust_cursor_size")}
           />
         </div>
         
