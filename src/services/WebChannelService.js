@@ -37,23 +37,66 @@ class WebChannelService {
     return this.isConnected && this.backend !== null;
   }
 
+  // Reset connection khi có lỗi
+  reset() {
+    this.backend = null;
+    this.isConnected = false;
+    this.connectionPromise = null;
+    console.log('🔄 WebChannel connection reset');
+  }
+
+  // Kiểm tra và reconnect nếu cần
+  async ensureConnection() {
+    if (!this.isReady()) {
+      console.log('🔄 Reconnecting WebChannel...');
+      this.reset();
+      await this.initialize();
+    }
+  }
+
   // Gọi slot với error handling
   async callSlot(slotName, ...args) {
     try {
-      if (!this.isReady()) {
-        await this.initialize();
-      }
+      await this.ensureConnection();
 
       if (!this.backend[slotName]) {
         throw new Error(`Slot '${slotName}' not found`);
       }
 
       console.log(`📡 Calling slot: ${slotName}`, args);
-      const result = await this.backend[slotName](...args);
-      console.log(`✅ Slot '${slotName}' called successfully`);
-      return result;
+      
+      // Wrap the slot call in a Promise with timeout
+      return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error(`Slot '${slotName}' timed out after 10 seconds`));
+        }, 10000); // 10 second timeout
+
+        try {
+          const result = this.backend[slotName](...args);
+          
+          // If the result is already a Promise, handle it
+          if (result && typeof result.then === 'function') {
+            result.then((res) => {
+              clearTimeout(timeout);
+              resolve(res);
+            }).catch((err) => {
+              clearTimeout(timeout);
+              reject(err);
+            });
+          } else {
+            // If it's not a Promise, resolve immediately
+            clearTimeout(timeout);
+            resolve(result);
+          }
+        } catch (error) {
+          clearTimeout(timeout);
+          reject(error);
+        }
+      });
     } catch (error) {
       console.error(`❌ Error calling slot '${slotName}':`, error);
+      // Reset connection on error to prevent stale callbacks
+      this.reset();
       throw error;
     }
   }

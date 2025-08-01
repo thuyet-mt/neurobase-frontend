@@ -247,6 +247,8 @@
   z-index: 20;
   opacity: 1;
   transform: rotate(0deg);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .button-commandes {
@@ -258,6 +260,8 @@
   z-index: 20;
   opacity: 1;
   transform: rotate(0deg);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .button-emails {
@@ -269,6 +273,8 @@
   z-index: 10;
   opacity: 1;
   transform: rotate(0deg);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .button-agenda {
@@ -280,6 +286,8 @@
   z-index: 20;
   opacity: 1;
   transform: rotate(0deg);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .button-colis {
@@ -291,6 +299,8 @@
   z-index: 10;
   opacity: 1;
   transform: rotate(0deg);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .button-mode {
@@ -341,6 +351,21 @@
     width: clamp(80px, 8vw, 100px);
     height: clamp(80px, 8vw, 100px);
   }
+}
+
+/* General button container optimizations */
+.button-archives,
+.button-telephone,
+.button-reunion,
+.button-accueil,
+.button-commandes,
+.button-emails,
+.button-agenda,
+.button-colis {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
 /* High contrast mode support */

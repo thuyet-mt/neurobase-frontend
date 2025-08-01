@@ -215,10 +215,13 @@ const GoldenButton = ({
         borderRadius: '50%',
         cursor: 'pointer',
         transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-        transition: 'transform 0.3s ease-in-out',
+        transition: 'transform 0.2s ease-out',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center', // Added for alignment
+        alignItems: 'center',
+        willChange: 'transform',
+        backfaceVisibility: 'hidden',
+        transformStyle: 'preserve-3d',
       }}
     >
       {/* ... button layers ... */}
@@ -246,8 +249,10 @@ const GoldenButton = ({
             height: '100%',
             background: 'linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent)',
             transform: isHovered ? 'translateX(25%)' : 'translateX(-125%)',
-            transition: 'transform 0.7s ease-in-out',
+            transition: 'transform 0.5s ease-out',
             pointerEvents: 'none',
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
           }}
         />
         {icon && (

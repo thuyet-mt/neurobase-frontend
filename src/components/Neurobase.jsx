@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
-import "./Neurobase.css";
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
+import webChannelService from '../services/WebChannelService';
+import './Neurobase.css';
 import backgroundImg from "../assets/background1.png";
 import logoImg from "../assets/logo_neuro.png";
 import MenuButton from "./MenuButton";
@@ -10,8 +13,6 @@ import ContainerFramePB from "./ContainerFrame";
 import ContainerFrameMenu from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
 import ProgressBar from "./ProgressBar";
-import { useTheme } from '../contexts/ThemeContext';
-import { useLanguage } from '../contexts/LanguageContext';
 // import Logo from "../assets/archives_icon.png";
 import ArchivesIcon from "../assets/archives_icon.svg";
 import TelephoneIcon from "../assets/telephone_icon.svg";
@@ -23,8 +24,19 @@ import AgendaIcon from "../assets/agenda_icon.svg"
 import ColisIcon from "../assets/colis_icon.svg"
 import BackButton from "./BackButton";
 import BackIcon from "../assets/back_icon.svg";
-// Import WebChannel Service
-import webChannelService from '../services/WebChannelService';
+
+// Debounce utility
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
 
 export default function Neurobase() {
   const { currentMode } = useTheme();
@@ -62,10 +74,32 @@ export default function Neurobase() {
   // Helper function để gọi slot với error handling
   const callSlotWithNotification = async (slotMethod, successMessage, errorMessage) => {
     try {
+      // Kiểm tra WebChannel connection trước khi gọi
+      if (!isWebChannelReady) {
+        throw new Error('WebChannel not ready');
+      }
+      
       await slotMethod();
       showNotificationWithMessage(successMessage);
     } catch (error) {
       console.error('Slot call failed:', error);
+      
+      // Nếu lỗi liên quan đến WebChannel, thử reconnect
+      if (error.message.includes('WebChannel') || error.message.includes('execCallbacks')) {
+        console.log('🔄 Attempting to reconnect WebChannel...');
+        try {
+          await webChannelService.reset();
+          await webChannelService.initialize();
+          setIsWebChannelReady(true);
+          // Thử lại một lần nữa
+          await slotMethod();
+          showNotificationWithMessage(successMessage);
+          return;
+        } catch (retryError) {
+          console.error('Retry failed:', retryError);
+        }
+      }
+      
       showNotificationWithMessage(errorMessage || 'Action failed');
     }
   };
@@ -95,45 +129,60 @@ export default function Neurobase() {
 
   // === Handler functions với WebChannel integration ===
 
-  const handleGoldenButtonClick = () => {
-    callSlotWithNotification(
-      () => webChannelService.openArchives(),
-      getText("archives_opened"),
-      getText("archives_failed")
-    );
-  };
+  const handleGoldenButtonClick = useCallback(
+    debounce(() => {
+      callSlotWithNotification(
+        () => webChannelService.openArchives(),
+        getText("archives_opened"),
+        getText("archives_failed")
+      );
+    }, 100),
+    [getText]
+  );
 
-  const handleTelephoneButtonClick = () => {
-    callSlotWithNotification(
-      () => webChannelService.openTelephone(),
-      getText("telephone_opened"),
-      getText("telephone_failed")
-    );
-  };
+  const handleTelephoneButtonClick = useCallback(
+    debounce(() => {
+      callSlotWithNotification(
+        () => webChannelService.openTelephone(),
+        getText("telephone_opened"),
+        getText("telephone_failed")
+      );
+    }, 100),
+    [getText]
+  );
 
-  const handleReunionButtonClick = () => {
-    callSlotWithNotification(
-      () => webChannelService.openReunions(),
-      getText("reunions_opened"),
-      getText("reunions_failed")
-    );
-  };
+  const handleReunionButtonClick = useCallback(
+    debounce(() => {
+      callSlotWithNotification(
+        () => webChannelService.openReunions(),
+        getText("reunions_opened"),
+        getText("reunions_failed")
+      );
+    }, 100),
+    [getText]
+  );
 
-  const handleAccueilButtonClick = () => {
-    callSlotWithNotification(
-      () => webChannelService.openAccueil(),
-      getText("accueil_opened"),
-      getText("accueil_failed")
-    );
-  };
+  const handleAccueilButtonClick = useCallback(
+    debounce(() => {
+      callSlotWithNotification(
+        () => webChannelService.openAccueil(),
+        getText("accueil_opened"),
+        getText("accueil_failed")
+      );
+    }, 100),
+    [getText]
+  );
 
-  const handleCommandesButtonClick = () => {
-    callSlotWithNotification(
-      () => webChannelService.openCommandes(),
-      getText("commandes_opened"),
-      getText("commandes_failed")
-    );
-  };
+  const handleCommandesButtonClick = useCallback(
+    debounce(() => {
+      callSlotWithNotification(
+        () => webChannelService.openCommandes(),
+        getText("commandes_opened"),
+        getText("commandes_failed")
+      );
+    }, 100),
+    [getText]
+  );
 
   const handleEmailsButtonClick = () => {
     callSlotWithNotification(
