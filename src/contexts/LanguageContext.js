@@ -10,6 +10,51 @@ export const useLanguage = () => {
   return context;
 };
 
+// Fallback English language data built-in
+const fallbackEnglishData = {
+  "neurobase_window": {
+    "title": "Neurobase",
+    "telephone": "Telephone",
+    "reunions": "Reunions",
+    "archives": "Archives",
+    "emails": "Emails",
+    "agenda": "Agenda",
+    "colis": "Packages",
+    "commandes": "Orders",
+    "accueil": "Home",
+    "menu": "Menu",
+    "home": "Home",
+    "back": "Back",
+    "adjust_cursor_size": "Adjust cursor size",
+    "archives_opened": "Archives opened successfully! 📁",
+    "archives_failed": "Could not open Archives",
+    "telephone_opened": "Telephone system opened! 📞",
+    "telephone_failed": "Could not open telephone system",
+    "reunions_opened": "Reunions & Meetings opened! 👥",
+    "reunions_failed": "Could not open Reunions & Meetings",
+    "accueil_opened": "Home opened! 🏠",
+    "accueil_failed": "Could not open Home",
+    "commandes_opened": "Orders opened! 📋",
+    "commandes_failed": "Could not open Orders",
+    "emails_opened": "Emails opened! 📧",
+    "emails_failed": "Could not open Emails",
+    "agenda_opened": "Agenda opened! 📅",
+    "agenda_failed": "Could not open Agenda",
+    "colis_opened": "Packages opened! 📦",
+    "colis_failed": "Could not open Packages",
+    "navigating_back": "Navigating back... ⬅️",
+    "back_failed": "Could not go back",
+    "progress_updated": "Progress updated: {value}% 📊",
+    "progress_failed": "Could not update progress",
+    "menu_opened": "Menu opened! 📋",
+    "menu_failed": "Could not open menu",
+    "mode_changed": "Mode changed to: {mode} 🎨",
+    "mode_failed": "Could not change mode",
+    "testing_close": "Testing window close... 🧪",
+    "test_failed": "Could not test close"
+  }
+};
+
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState('en');
   const [languageData, setLanguageData] = useState(null);
@@ -30,34 +75,35 @@ export const LanguageProvider = ({ children }) => {
         console.log('🌐 React: Loading language from localStorage...');
         console.log('🌐 React: savedLanguage =', savedLanguage);
         
-        // Fetch language data from server
-        const response = await fetch(`/langs/${savedLanguage}.json`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+        // Try to fetch language data from server
+        try {
+          const response = await fetch(`/langs/${savedLanguage}.json`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          setLanguageData(data);
+          
+          console.log('✅ Language data loaded from server:', savedLanguage);
+          console.log('📄 Language data:', data);
+        } catch (serverError) {
+          console.warn('⚠️ Server not available, using fallback English data:', serverError.message);
+          
+          // Use built-in English fallback data
+          setLanguageData(fallbackEnglishData);
+          setLanguage('en'); // Force English
+          console.log('🔄 Using built-in English fallback data');
         }
-        
-        const data = await response.json();
-        setLanguageData(data);
-        
-        console.log('✅ Language data loaded successfully:', savedLanguage);
-        console.log('📄 Language data:', data);
         
       } catch (err) {
         console.error('❌ Failed to load language data:', err);
         setError(err.message);
         
-        // Fallback to English if loading fails
-        try {
-          const fallbackResponse = await fetch('/langs/en.json');
-          if (fallbackResponse.ok) {
-            const fallbackData = await fallbackResponse.json();
-            setLanguageData(fallbackData);
-            setLanguage('en');
-            console.log('🔄 Fallback to English language');
-          }
-        } catch (fallbackErr) {
-          console.error('❌ Fallback language loading also failed:', fallbackErr);
-        }
+        // Use built-in English data as last resort
+        setLanguageData(fallbackEnglishData);
+        setLanguage('en');
+        console.log('🔄 Using built-in English data as last resort');
       } finally {
         setLoading(false);
       }
