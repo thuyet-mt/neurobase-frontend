@@ -22,9 +22,14 @@ export const ThemeProvider = ({ children }) => {
     });
   };
 
+  const setMode = (mode) => {
+    setCurrentMode(mode);
+  };
+
   const value = {
     currentMode,
     toggleMode,
+    setMode,
   };
 
   return React.createElement(ThemeContext.Provider, { value }, children);

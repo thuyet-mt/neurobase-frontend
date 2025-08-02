@@ -4,7 +4,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import webChannelService from '../services/WebChannelService';
 import './Neurobase.css';
 import backgroundImg from "../assets/background1.png";
-import logoImg from "../assets/logo_neuro.png";
+// import logoImg from "../assets/logo_neuro.png"; // Replaced with 3D logo
 import MenuButton from "./MenuButton";
 import ModeButton from "./ModeButton";
 // Components ContainerFrame for ProgressBar
@@ -13,6 +13,9 @@ import ContainerFramePB from "./ContainerFrame";
 import ContainerFrameMenu from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
 import ProgressBar from "./ProgressBar";
+// 3D Logo Components
+import { Canvas } from '@react-three/fiber';
+import Logo3DModel from "./Logo3DModel";
 // import Logo from "../assets/archives_icon.png";
 import ArchivesIcon from "../assets/archives_icon.svg";
 import TelephoneIcon from "../assets/telephone_icon.svg";
@@ -311,7 +314,42 @@ export default function Neurobase() {
         <img src={backgroundImg} alt="background" />
       </div>
       <div className="neurobase-logo">
-        <img src={logoImg} alt="logo" />
+        <div style={{
+          width: '100%',
+          height: '100%',
+          // borderRadius: '12px',  // Commented out to allow full border
+          // overflow: 'hidden',  // Commented out to allow overflow
+          // border: '2px solid #DFAA2E'  // Commented out border
+        }}>
+          <Canvas
+            camera={{ 
+              position: [0, 0, 3], 
+              fov: 70 
+            }}
+            style={{ 
+              background: 'transparent',
+              // borderRadius: '10px'  // Commented out to allow full border
+            }}
+          >
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[10, 10, 5]} intensity={1.2} />
+            
+            <Logo3DModel
+              position={[0, 0, 0]}
+              scale={13.0}
+              autoRotate={false}
+              rotationSpeed={0.3}
+              hoverEffect={true}
+              enableAnimations={true}
+              animationSpeed={2.0}
+              loopAnimations={true}
+              onClick={() => {
+                console.log('🎯 3D Logo clicked!');
+                showNotificationWithMessage('🎨 Logo 3D được click!');
+              }}
+            />
+          </Canvas>
+        </div>
       </div>
       <h1 className="neurobase-title">{getText("title")}</h1>
       {/* Menu Button ở góc trên bên phải */}
