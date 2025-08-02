@@ -14,7 +14,13 @@ const Logo3DModel = ({
   onClick = null,
   enableAnimations = true,
   animationSpeed = 1.0,
-  loopAnimations = true
+  loopAnimations = true,
+  // Props for smooth rotation animation
+  enableSmoothRotation = true,
+  initialRotationSpeed = 6.0, // Reduced from 12.0
+  rotationDuration = 4.0, // Increased from 3.0
+  targetRotation = 0,
+  totalRotations = 3
 }) => {
   const meshRef = useRef();
   const mixerRef = useRef();
@@ -25,6 +31,50 @@ const Logo3DModel = ({
   const [error, setError] = useState(null);
   const [animations, setAnimations] = useState([]);
   const [currentAnimation, setCurrentAnimation] = useState(0);
+  
+  // Simplified rotation animation state
+  const [rotationAnimationState, setRotationAnimationState] = useState({
+    isAnimating: false,
+    startTime: 0,
+    startRotation: 0,
+    targetRotation: 0,
+    totalRotations: totalRotations, // Number of full rotations
+    currentRotation: 0
+  });
+
+  // Update rotationAnimationState when totalRotations prop changes
+  useEffect(() => {
+    setRotationAnimationState(prev => ({
+      ...prev,
+      totalRotations: totalRotations
+    }));
+  }, [totalRotations]);
+
+  // Function to start smooth rotation animation
+  const startSmoothRotation = () => {
+    if (enableSmoothRotation && !autoRotate && meshRef.current) {
+      const currentRotation = meshRef.current.rotation.y;
+      const targetRotation = currentRotation + (totalRotations * 2 * Math.PI);
+      
+      // Reset scale to original size when starting animation
+      meshRef.current.scale.setScalar(scale);
+      
+      setRotationAnimationState({
+        isAnimating: true,
+        startTime: Date.now(),
+        startRotation: currentRotation,
+        targetRotation: targetRotation,
+        totalRotations: totalRotations,
+        currentRotation: currentRotation
+      });
+      
+      console.log('🔄 Starting smooth rotation animation');
+      console.log('📍 Start rotation:', currentRotation);
+      console.log('🎯 Target rotation:', targetRotation);
+      console.log('🔄 Total rotations:', totalRotations);
+      console.log('📏 Scale reset to:', scale);
+    }
+  };
 
   // Load 3D model
   useEffect(() => {
@@ -37,7 +87,7 @@ const Logo3DModel = ({
         const gltf = await new Promise((resolve, reject) => {
           const loader = new GLTFLoader();
           loader.load(
-            '/Logo_2 v1.glb',
+            '/Logo_2_v1.glb',
             (gltf) => resolve(gltf),
             (progress) => {
               console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%');
@@ -90,8 +140,42 @@ const Logo3DModel = ({
       mixerRef.current.update(delta);
     }
     
-    // Handle rotation and hover effects - ONLY if autoRotate is true
-    if (meshRef.current && autoRotate) {
+    // Handle smooth rotation animation
+    if (meshRef.current && rotationAnimationState.isAnimating) {
+      const currentTime = Date.now();
+      const elapsedTime = (currentTime - rotationAnimationState.startTime) / 1000; // Convert to seconds
+      const progress = Math.min(elapsedTime / rotationDuration, 1);
+      
+      // Use ease-out function for smooth deceleration
+      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+      
+      // Calculate current rotation
+      const rotationRange = rotationAnimationState.targetRotation - rotationAnimationState.startRotation;
+      const currentRotation = rotationAnimationState.startRotation + (rotationRange * easeOutProgress);
+      
+      // Apply rotation ONLY - keep scale constant during animation
+      meshRef.current.rotation.y = currentRotation;
+      
+      // Ensure scale stays constant during animation (no hover effects during rotation)
+      meshRef.current.scale.setScalar(scale);
+      
+      // Check if animation is complete
+      if (progress >= 1) {
+        // Ensure we're exactly at the target position
+        meshRef.current.rotation.y = rotationAnimationState.targetRotation;
+        
+        setRotationAnimationState(prev => ({
+          ...prev,
+          isAnimating: false
+        }));
+        
+        console.log('🎯 Rotation animation completed');
+        console.log('📍 Final rotation:', meshRef.current.rotation.y);
+      }
+    }
+    
+    // Handle regular rotation and hover effects - ONLY if autoRotate is true
+    if (meshRef.current && autoRotate && !rotationAnimationState.isAnimating) {
       // Smooth rotation
       meshRef.current.rotation.y += rotationSpeed * delta;
       
@@ -102,8 +186,17 @@ const Logo3DModel = ({
       } else {
         meshRef.current.scale.setScalar(scale);
       }
-    } else if (meshRef.current && !autoRotate) {
+    } else if (meshRef.current && !autoRotate && !rotationAnimationState.isAnimating) {
       // Only handle hover effect, no rotation
+      if (hoverEffect && isHovered) {
+        meshRef.current.scale.setScalar(scale * 1.1);
+      } else {
+        meshRef.current.scale.setScalar(scale);
+      }
+    }
+    
+    // Handle hover effects for smooth rotation mode - ONLY when not animating
+    if (meshRef.current && !autoRotate && enableSmoothRotation && !rotationAnimationState.isAnimating) {
       if (hoverEffect && isHovered) {
         meshRef.current.scale.setScalar(scale * 1.1);
       } else {
@@ -115,6 +208,16 @@ const Logo3DModel = ({
   // Handle click
   const handleClick = (event) => {
     event.stopPropagation();
+    
+    console.log('🎯 Logo clicked!');
+    
+    // Start smooth rotation animation on click
+    if (enableSmoothRotation && !autoRotate) {
+      console.log('✅ Starting smooth rotation animation');
+      startSmoothRotation();
+    } else {
+      console.log('❌ Cannot start smooth rotation');
+    }
     
     // Cycle through animations on click
     if (animations.length > 1) {

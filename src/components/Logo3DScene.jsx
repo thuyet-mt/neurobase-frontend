@@ -9,13 +9,18 @@ const Logo3DScene = ({
   showControls = false,
   enableZoom = false,
   enablePan = false,
-  autoRotate = true,
+  autoRotate = false, // Set to false to enable click-to-rotate
   rotationSpeed = 0.5,
   scale = 1,
   position = [0, 0, 0],
   onClick = null,
   className = '',
-  style = {}
+  style = {},
+  // Props for smooth rotation animation
+  enableSmoothRotation = true,
+  initialRotationSpeed = 6.0, // Reduced from 8.0
+  rotationDuration = 4.0, // Increased from 3.0
+  totalRotations = 3 // Number of full rotations when clicked
 }) => {
   return (
     <div 
@@ -62,6 +67,10 @@ const Logo3DScene = ({
             scale={scale}
             autoRotate={autoRotate}
             rotationSpeed={rotationSpeed}
+            enableSmoothRotation={enableSmoothRotation}
+            initialRotationSpeed={initialRotationSpeed}
+            rotationDuration={rotationDuration}
+            totalRotations={totalRotations}
             onClick={onClick}
           />
         </Suspense>

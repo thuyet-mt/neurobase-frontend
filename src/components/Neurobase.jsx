@@ -343,6 +343,9 @@ export default function Neurobase() {
               enableAnimations={true}
               animationSpeed={2.0}
               loopAnimations={true}
+              enableSmoothRotation={true}
+              initialRotationSpeed={12.0}
+              rotationDuration={3.0}
               onClick={() => {
                 console.log('🎯 3D Logo clicked!');
                 showNotificationWithMessage('🎨 Logo 3D được click!');
