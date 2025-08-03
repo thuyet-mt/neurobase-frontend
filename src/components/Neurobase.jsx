@@ -48,6 +48,8 @@ export default function Neurobase() {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [progressValue, setProgressValue] = useState(35); // Initial value at 35%
   const [isWebChannelReady, setIsWebChannelReady] = useState(false);
+  const [backgroundScale, setBackgroundScale] = useState(1);
+  const [isZooming, setIsZooming] = useState(false);
 
   // Khởi tạo WebChannel khi component mount
   useEffect(() => {
@@ -258,6 +260,23 @@ export default function Neurobase() {
     );
   };
 
+  // Handle background zoom with mouse wheel
+  const handleWheel = useCallback((e) => {
+    e.preventDefault();
+    
+    if (isZooming) return; // Prevent rapid zooming
+    
+    setIsZooming(true);
+    
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    const newScale = Math.max(0.5, Math.min(3.0, backgroundScale + delta));
+    
+    setBackgroundScale(newScale);
+    
+    // Reset zooming flag after a short delay
+    setTimeout(() => setIsZooming(false), 100);
+  }, [backgroundScale, isZooming]);
+
   // Responsive text styles helper
   const getResponsiveTextStyle = (baseSize = 23) => ({
     fontFamily: 'Open Sans',
@@ -308,10 +327,23 @@ export default function Neurobase() {
   }
 
   return (
-    <div className="neurobase-root" style={getThemeStyles()} data-theme={currentMode}>
+    <div 
+      className="neurobase-root" 
+      style={getThemeStyles()} 
+      data-theme={currentMode}
+      onWheel={handleWheel}
+    >
       <div className="neurobase-bg" />
       <div className="neurobase-image-bg">
-        <img src={backgroundImg} alt="background" />
+        <img 
+          src={backgroundImg} 
+          alt="background" 
+          style={{
+            transform: `scale(${backgroundScale})`,
+            transformOrigin: 'center center',
+            transition: 'transform 0.1s ease-out'
+          }}
+        />
       </div>
       <div className="neurobase-logo">
         <div style={{

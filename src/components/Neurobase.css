@@ -5,10 +5,29 @@
   left: 0;
   top: 0;
   overflow: hidden;
-  background: url(../assets/background.png);
+  background: url(../assets/background1.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+/* Ensure background scales properly on all devices */
+@media (max-width: 768px) {
+  .neurobase-root {
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 480px) {
+  .neurobase-root {
+    background-size: cover;
+    background-position: center;
+  }
 }
 
 .neurobase-bg {
@@ -30,14 +49,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .neurobase-image-bg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   opacity: 1;
   transform: rotate(0deg);
+  min-width: 100%;
+  min-height: 100%;
+  max-width: none;
+  max-height: none;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Ensure background image scales properly on all screen sizes */
+@media (max-width: 768px) {
+  .neurobase-image-bg img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .neurobase-image-bg img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Landscape orientation support for background */
+@media (max-height: 600px) and (orientation: landscape) {
+  .neurobase-image-bg img {
+    object-fit: cover;
+    object-position: center;
+  }
 }
 
 .neurobase-logo {
@@ -218,6 +269,12 @@
     font-size: 42px;
     width: 260px;
     left: calc(50% - 260px/2 + 0.5px);
+  }
+  
+  /* Ensure background scales properly */
+  .neurobase-root {
+    background-size: cover;
+    background-position: center;
   }
 }
 
