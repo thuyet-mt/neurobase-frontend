@@ -48,7 +48,7 @@ export default function Neurobase() {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [progressValue, setProgressValue] = useState(35); // Initial value at 35%
   const [isWebChannelReady, setIsWebChannelReady] = useState(false);
-  const [backgroundScale, setBackgroundScale] = useState(1);
+  const [backgroundScale, setBackgroundScale] = useState(0.7);
   const [isZooming, setIsZooming] = useState(false);
 
   // Khởi tạo WebChannel khi component mount
@@ -269,7 +269,7 @@ export default function Neurobase() {
     setIsZooming(true);
     
     const delta = e.deltaY > 0 ? -0.1 : 0.1;
-    const newScale = Math.max(0.5, Math.min(3.0, backgroundScale + delta));
+    const newScale = Math.max(0.3, Math.min(2.5, backgroundScale + delta));
     
     setBackgroundScale(newScale);
     
