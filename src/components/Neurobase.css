@@ -72,22 +72,80 @@
 
 .neurobase-title {
   position: absolute;
-  width: clamp(200px, 20vw, 279px);
-  left: 50%;
-  top: clamp(5%, 7vw, 7.03%);
-  transform: translateX(-50%);
+  width: 279px;
+  left: calc(50% - 279px/2 + 0.5px);
+  top: 7.03%;
+  bottom: 86.72%;
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-size: 46px;
   line-height: 139%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  color: #DFAA2E;
+  color: #A87815;
   z-index: 3;
   margin: 0;
+  text-transform: uppercase;
+}
+
+/* Theme-specific styles for NEUROBASE title */
+.neurobase-root[data-theme="light"] .neurobase-title {
+  color: #A87815;
+  left: calc(50% - 279px/2 + 0.5px);
+}
+
+.neurobase-root[data-theme="balance"] .neurobase-title {
+  color: #DFAA2E;
+  left: calc(50% - 279px/2 + 1px);
+}
+
+.neurobase-root[data-theme="dark"] .neurobase-title {
+  color: #BC8C1D;
+  left: calc(50% - 279px/2 + 1px);
+}
+
+/* Responsive theme-specific positioning */
+@media (max-width: 1200px) {
+  .neurobase-root[data-theme="light"] .neurobase-title {
+    left: calc(50% - 260px/2 + 0.5px);
+  }
+  .neurobase-root[data-theme="balance"] .neurobase-title,
+  .neurobase-root[data-theme="dark"] .neurobase-title {
+    left: calc(50% - 260px/2 + 1px);
+  }
+}
+
+@media (max-width: 768px) {
+  .neurobase-root[data-theme="light"] .neurobase-title {
+    left: calc(50% - 240px/2 + 0.5px);
+  }
+  .neurobase-root[data-theme="balance"] .neurobase-title,
+  .neurobase-root[data-theme="dark"] .neurobase-title {
+    left: calc(50% - 240px/2 + 1px);
+  }
+}
+
+@media (max-width: 480px) {
+  .neurobase-root[data-theme="light"] .neurobase-title {
+    left: calc(50% - 200px/2 + 0.5px);
+  }
+  .neurobase-root[data-theme="balance"] .neurobase-title,
+  .neurobase-root[data-theme="dark"] .neurobase-title {
+    left: calc(50% - 200px/2 + 1px);
+  }
+}
+
+@media (max-width: 360px) {
+  .neurobase-root[data-theme="light"] .neurobase-title {
+    left: calc(50% - 180px/2 + 0.5px);
+  }
+  .neurobase-root[data-theme="balance"] .neurobase-title,
+  .neurobase-root[data-theme="dark"] .neurobase-title {
+    left: calc(50% - 180px/2 + 1px);
+  }
 }
 
 /* Notification Popup Styles */
@@ -157,13 +215,17 @@
 /* Responsive breakpoints */
 @media (max-width: 1200px) {
   .neurobase-title {
-    font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+    font-size: 42px;
+    width: 260px;
+    left: calc(50% - 260px/2 + 0.5px);
   }
 }
 
 @media (max-width: 768px) {
   .neurobase-title {
-    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-size: 36px;
+    width: 240px;
+    left: calc(50% - 240px/2 + 0.5px);
   }
   
   .notification-popup {
@@ -180,7 +242,9 @@
 
 @media (max-width: 480px) {
   .neurobase-title {
-    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+    font-size: 28px;
+    width: 200px;
+    left: calc(50% - 200px/2 + 0.5px);
   }
   
   .neurobase-logo {
@@ -195,7 +259,9 @@
 
 @media (max-width: 360px) {
   .neurobase-title {
-    font-size: clamp(1rem, 3vw, 1.2rem);
+    font-size: 24px;
+    width: 180px;
+    left: calc(50% - 180px/2 + 0.5px);
   }
   
   .neurobase-logo {

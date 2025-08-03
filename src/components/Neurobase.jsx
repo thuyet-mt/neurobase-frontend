@@ -308,7 +308,7 @@ export default function Neurobase() {
   }
 
   return (
-    <div className="neurobase-root" style={getThemeStyles()}>
+    <div className="neurobase-root" style={getThemeStyles()} data-theme={currentMode}>
       <div className="neurobase-bg" />
       <div className="neurobase-image-bg">
         <img src={backgroundImg} alt="background" />

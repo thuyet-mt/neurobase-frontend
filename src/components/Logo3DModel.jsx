@@ -144,11 +144,11 @@ const Logo3DModel = ({
     if (meshRef.current && rotationAnimationState.isAnimating) {
       const currentTime = Date.now();
       const elapsedTime = (currentTime - rotationAnimationState.startTime) / 1000; // Convert to seconds
-      const progress = Math.min(elapsedTime / rotationDuration, 1);
-      
-      // Use ease-out function for smooth deceleration
-      const easeOutProgress = 1 - Math.pow(1 - progress, 3);
-      
+        const progress = Math.min(elapsedTime / rotationDuration, 1);
+        
+        // Use ease-out function for smooth deceleration
+        const easeOutProgress = 1 - Math.pow(1 - progress, 3);
+        
       // Calculate current rotation
       const rotationRange = rotationAnimationState.targetRotation - rotationAnimationState.startRotation;
       const currentRotation = rotationAnimationState.startRotation + (rotationRange * easeOutProgress);
@@ -164,8 +164,8 @@ const Logo3DModel = ({
         // Ensure we're exactly at the target position
         meshRef.current.rotation.y = rotationAnimationState.targetRotation;
         
-        setRotationAnimationState(prev => ({
-          ...prev,
+          setRotationAnimationState(prev => ({
+            ...prev,
           isAnimating: false
         }));
         
@@ -173,8 +173,8 @@ const Logo3DModel = ({
         console.log('📍 Final rotation:', meshRef.current.rotation.y);
       }
     }
-    
-    // Handle regular rotation and hover effects - ONLY if autoRotate is true
+     
+     // Handle regular rotation and hover effects - ONLY if autoRotate is true
     if (meshRef.current && autoRotate && !rotationAnimationState.isAnimating) {
       // Smooth rotation
       meshRef.current.rotation.y += rotationSpeed * delta;
