@@ -3,6 +3,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import ErrorBoundary from "./services/ErrorBoundary";
 import NotificationSystem from "./components/NotificationSystem";
+import Cursor3D from "./components/Cursor3D";
+import Cursor3DController from "./components/Cursor3DController";
 import { POSITION_CONFIG } from "./constants/buttons";
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
       <ErrorBoundary>
         <LanguageProvider>
           <ThemeProvider>
+            <Cursor3D />
+            <Cursor3DController />
             <LogoTestPage />
           </ThemeProvider>
         </LanguageProvider>
@@ -25,6 +29,8 @@ function App() {
     <ErrorBoundary>
       <LanguageProvider>
         <ThemeProvider>
+          <Cursor3D />
+          <Cursor3DController />
           <NotificationSystem />
           <Neurobase 
             {...POSITION_CONFIG}

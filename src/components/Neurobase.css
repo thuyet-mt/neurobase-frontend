@@ -460,6 +460,7 @@
   bottom: clamp(40px, 4vw, 64px);
   right: clamp(40px, 4vw, 64px);
   z-index: 10;
+  cursor: none !important;
 }
 
 /* Responsive button positioning for smaller screens */
@@ -518,6 +519,17 @@
   backface-visibility: hidden;
   transform-style: preserve-3d;
   perspective: 1000px;
+}
+
+.button-archives,
+.button-telephone,
+.button-reunion,
+.button-accueil,
+.button-commandes,
+.button-emails,
+.button-agenda,
+.button-colis {
+  cursor: none !important;
 }
 
 /* High contrast mode support */
