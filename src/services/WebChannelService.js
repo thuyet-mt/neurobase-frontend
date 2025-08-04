@@ -108,14 +108,6 @@ class WebChannelService {
     return this.callSlot('openMenu');
   }
 
-  async openProfile() {
-    return this.callSlot('openProfile');
-  }
-
-  async openSettings() {
-    return this.callSlot('openSettings');
-  }
-
   // Navigation Actions
   async goBack() {
     return this.callSlot('goBack');
@@ -174,10 +166,6 @@ class WebChannelService {
   }
 
   // System Actions
-  async logout() {
-    return this.callSlot('logout');
-  }
-
   async shutdown() {
     return this.callSlot('shutdown');
   }
@@ -195,6 +183,8 @@ class WebChannelService {
   async testCloseWindow() {
     return this.callSlot('testCloseWindow');
   }
+
+  
 }
 
 // Tạo instance singleton

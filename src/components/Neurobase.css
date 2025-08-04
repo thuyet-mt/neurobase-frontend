@@ -50,12 +50,26 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: linear-gradient(135deg, #E4DAC2 0%, #C7B7A5 100%);
+}
+
+/* Theme-specific background colors */
+.neurobase-root[data-theme="light"] .neurobase-image-bg {
+  background: var(--Background-Light, #E4DAC2);
+}
+
+.neurobase-root[data-theme="dark"] .neurobase-image-bg {
+  background: var(--Background-Dark, #030303);
+}
+
+.neurobase-root[data-theme="balance"] .neurobase-image-bg {
+  background: var(--Background-Balance, #615637);
 }
 
 .neurobase-image-bg img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   opacity: 1;
   transform: rotate(0deg);
@@ -71,14 +85,14 @@
 /* Ensure background image scales properly on all screen sizes */
 @media (max-width: 768px) {
   .neurobase-image-bg img {
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
   }
 }
 
 @media (max-width: 480px) {
   .neurobase-image-bg img {
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
   }
 }
@@ -86,7 +100,7 @@
 /* Landscape orientation support for background */
 @media (max-height: 600px) and (orientation: landscape) {
   .neurobase-image-bg img {
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
   }
 }
