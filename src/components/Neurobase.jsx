@@ -11,6 +11,8 @@ import ModeButton from "./ModeButton";
 import ContainerFrame from "./ContainerFrame";
 // Components ContainerFrame for Menu
 import ContainerFrameMenu from "./ContainerFrame";
+// Components ContainerFrame for ProgressBar (old version)
+import ContainerFramePB from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
 import ProgressBar from "./ProgressBar";
 // 3D Logo Components
@@ -616,15 +618,23 @@ export default function Neurobase() {
       </div>
       
       {/* Container Frame để chứa các component */}
-
-      <ContainerFrame>
+      <div className="button-mode">
+        <ModeButton
+          size={80}
+          tooltip="Switch Theme Mode"
+          tooltipPosition="top"
+          onModeChange={handleModeButtonClick}
+        />
+      </div>
+      <ContainerFramePB>
+        {/* Text indicator để xác nhận ContainerFrame */}
+        {/* <div style={{ color: 'black', fontSize: '12px' }}>ContainerFrame Active</div> */}
+        
         {/* ProgressBar Component */}
         <div style={{ 
           display: 'flex',
           justifyContent: 'flex-start',
-          alignItems: 'center',
-          flex: 1,
-          maxWidth: '70%'
+          alignItems: 'center'
         }}>
           <ProgressBar 
             value={progressValue}
@@ -635,16 +645,14 @@ export default function Neurobase() {
           />
         </div>
         
-        {/* ModeButton */}
-        <div className="button-mode">
-          <ModeButton
-            size={80}
-            tooltip="Switch Theme Mode"
-            tooltipPosition="top"
-            onModeChange={handleModeButtonClick}
-          />
-        </div>
-      </ContainerFrame>
+        {/* ModeButton với vị trí tương đối */}
+        {/* FunctionButton */}
+        {/* Ví dụ thêm các component khác:
+        <SomeOtherComponent />
+        <AnotherComponent />
+        <ModeButton/>
+        */}
+      </ContainerFramePB>
       
       {/* Menu Container Frame với kích thước responsive */}
       <ContainerFrameMenu
