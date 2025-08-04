@@ -20,6 +20,16 @@ const ProgressBar = ({
   // Calculate thumb position (82px is the initial position, 239px is total width)
   const thumbPosition = (percentage / 100) * (239 - 40); // 239px width - 40px thumb width
 
+  // Đảm bảo component luôn được render
+  if (typeof value !== 'number' || typeof min !== 'number' || typeof max !== 'number') {
+    console.error('ProgressBar: Invalid props', { value, min, max });
+    return (
+      <div className="progress-bar-container" style={{ border: '2px solid red', background: 'rgba(255, 0, 0, 0.2)' }}>
+        <div className="progress-text">Error: Invalid props</div>
+      </div>
+    );
+  }
+
   const handleMouseDown = (e) => {
     if (disabled) return;
     

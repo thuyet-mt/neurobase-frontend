@@ -8,7 +8,7 @@ import backgroundImg from "../assets/background1.png";
 import MenuButton from "./MenuButton";
 import ModeButton from "./ModeButton";
 // Components ContainerFrame for ProgressBar
-import ContainerFramePB from "./ContainerFrame";
+import ContainerFrame from "./ContainerFrame";
 // Components ContainerFrame for Menu
 import ContainerFrameMenu from "./ContainerFrame";
 import GoldenButton from "./GoldenButton";
@@ -616,23 +616,15 @@ export default function Neurobase() {
       </div>
       
       {/* Container Frame để chứa các component */}
-      <div className="button-mode">
-        <ModeButton
-          size={80}
-          tooltip="Switch Theme Mode"
-          tooltipPosition="top"
-          onModeChange={handleModeButtonClick}
-        />
-      </div>
-      <ContainerFramePB>
-        {/* Text indicator để xác nhận ContainerFrame */}
-        {/* <div style={{ color: 'black', fontSize: '12px' }}>ContainerFrame Active</div> */}
-        
+
+      <ContainerFrame>
         {/* ProgressBar Component */}
         <div style={{ 
           display: 'flex',
           justifyContent: 'flex-start',
-          alignItems: 'center'
+          alignItems: 'center',
+          flex: 1,
+          maxWidth: '70%'
         }}>
           <ProgressBar 
             value={progressValue}
@@ -643,14 +635,16 @@ export default function Neurobase() {
           />
         </div>
         
-        {/* ModeButton với vị trí tương đối */}
-        {/* FunctionButton */}
-        {/* Ví dụ thêm các component khác:
-        <SomeOtherComponent />
-        <AnotherComponent />
-        <ModeButton/>
-        */}
-      </ContainerFramePB>
+        {/* ModeButton */}
+        <div className="button-mode">
+          <ModeButton
+            size={80}
+            tooltip="Switch Theme Mode"
+            tooltipPosition="top"
+            onModeChange={handleModeButtonClick}
+          />
+        </div>
+      </ContainerFrame>
       
       {/* Menu Container Frame với kích thước responsive */}
       <ContainerFrameMenu

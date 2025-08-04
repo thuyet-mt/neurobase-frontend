@@ -1,38 +1,43 @@
 .container-frame {
   /* Auto layout */
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   padding: clamp(8px, 1vw, 16px);
   gap: clamp(12px, 2vw, 16px);
 
   position: absolute;
-  width: clamp(280px, 25vw, 337px);
-  height: clamp(60px, 8vh, 80px);
-  right: clamp(40px, 4vw, 64px);
-  bottom: clamp(40px, 4vw, 64px);
+  /* Responsive width: từ 335px (23.26% của 1440px) */
+  width: clamp(280px, 23vw, 400px);
+  /* Responsive height: từ 80px (7.81% của 1024px) */
+  height: clamp(60px, 8vh, 100px);
   
-  /* Tạm thời thêm border để dễ nhận biết */
-  /* border: 2px dashed #ff0000; */
-  /* background-color: rgba(255, 0, 0, 0.1); */
+  /* Responsive positioning: từ top 880px (85.94% của 1024px) */
+  bottom: clamp(40px, 4vh, 80px);
+  /* Responsive positioning: từ left 1041px (72.29% của 1440px) */
+  right: clamp(40px, 4vw, 80px);
+  
+  /* Thêm z-index cao để đảm bảo hiển thị */
+  z-index: 2000;
   
   /* Đảm bảo không vượt ra ngoài background */
   max-width: calc(100vw - clamp(80px, 8vw, 128px));
   max-height: calc(100vh - clamp(120px, 12vh, 176px));
 }
 
-/* Container cho ModeButton */
-.mode-button-container {
-  /* Vị trí tương đối trong ContainerFrame */
+/* Button mode trong layout ngang */
+.button-mode {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Có thể tùy chỉnh vị trí */
-  margin-left: auto; /* Đẩy sang phải */
-  /* margin-right: auto; */ /* Đẩy sang trái */
-  /* margin: 0 auto; */ /* Căn giữa */
+  flex-shrink: 0;
+  /* Đảm bảo button nằm bên phải và không bị che */
+  margin-left: auto;
+  z-index: 2003;
+  /* Đảm bảo button có đủ không gian */
+  min-width: 80px;
+  height: 100%;
 }
 
 /* Tùy chỉnh vị trí ModeButton */
@@ -51,27 +56,38 @@
 }
 
 /* Responsive breakpoints */
+@media (max-width: 1200px) {
+  .container-frame {
+    width: clamp(250px, 25vw, 350px);
+    height: clamp(50px, 7vh, 80px);
+    right: clamp(30px, 3vw, 60px);
+    bottom: clamp(30px, 3vh, 60px);
+  }
+}
+
 @media (max-width: 768px) {
   .container-frame {
-    width: clamp(250px, 30vw, 280px);
-    height: clamp(50px, 6vh, 60px);
-    right: clamp(20px, 3vw, 40px);
-    bottom: clamp(20px, 3vw, 40px);
+    width: clamp(220px, 28vw, 300px);
+    height: clamp(45px, 6vh, 70px);
+    right: clamp(20px, 2.5vw, 40px);
+    bottom: clamp(20px, 2.5vh, 40px);
   }
 }
 
 @media (max-width: 480px) {
   .container-frame {
-    width: clamp(200px, 35vw, 250px);
-    height: clamp(40px, 5vh, 50px);
-    right: clamp(10px, 2vw, 20px);
-    bottom: clamp(10px, 2vw, 20px);
+    width: clamp(180px, 32vw, 250px);
+    height: clamp(40px, 5vh, 60px);
+    right: clamp(15px, 2vw, 30px);
+    bottom: clamp(15px, 2vh, 30px);
   }
 }
 
 @media (max-width: 360px) {
   .container-frame {
-    width: clamp(180px, 40vw, 200px);
-    height: clamp(35px, 4vh, 40px);
+    width: clamp(150px, 35vw, 200px);
+    height: clamp(35px, 4vh, 50px);
+    right: clamp(10px, 1.5vw, 20px);
+    bottom: clamp(10px, 1.5vh, 20px);
   }
 } 
