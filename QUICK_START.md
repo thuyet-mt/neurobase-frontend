@@ -25,7 +25,7 @@ Truy cập: http://localhost:5173
 
 - ✅ App load thành công
 - ✅ Hệ thống đa ngôn ngữ hoạt động (tiếng Anh)
-- ✅ Theme system hoạt động (light, dark, gold)
+- ✅ Theme system hoạt động (light, dark, balance)
 - ✅ Không còn lỗi JSON parsing
 - ✅ Không cần mock server
 
@@ -42,7 +42,7 @@ localStorage.setItem('language', 'en'); // English (fallback)
 // Trong browser console
 localStorage.setItem('theme', 'dark');
 localStorage.setItem('theme', 'light');
-localStorage.setItem('theme', 'gold');
+localStorage.setItem('theme', 'balance');
 ```
 
 ## 🐛 Nếu vẫn gặp lỗi

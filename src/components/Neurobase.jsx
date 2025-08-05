@@ -123,7 +123,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
           background: '#030303',
           filter: 'none'
         };
-      case 'gold':
+      case 'balance':
         return {
           background: '#615637',
           filter: 'none'
@@ -393,7 +393,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Back Button */}
       {/* <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} /> */}
       <BackButton 
-        theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+        theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
         onClick={handleBackButtonClick}
         tooltip={getText("back")}
         icon={
@@ -419,7 +419,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Archives Button với vị trí tương đối so với Menu Container Frame */}
       <div className="button-archives">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleGoldenButtonClick}
           tooltip="Golden Button - Click me! ✨"
           tooltipPosition="top"
@@ -444,7 +444,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Telephone Button */}
       <div className="button-telephone">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleTelephoneButtonClick}
           tooltip="Telephone Button - Click me! 📞"
           tooltipPosition="top"
@@ -469,7 +469,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Reunion Button */}
       <div className="button-reunion">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleReunionButtonClick}
           tooltip="Reunion Button - Click me! 👥"
           tooltipPosition="top"
@@ -494,7 +494,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Accueil Button */}
       <div className="button-accueil">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleAccueilButtonClick}
           tooltip="Accueil Button - Click me! 🏠"
           tooltipPosition="top"
@@ -519,7 +519,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Commandes Button */}
       <div className="button-commandes">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleCommandesButtonClick}
           tooltip="Commandes Button - Click me! 📋"
           tooltipPosition="top"
@@ -544,7 +544,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Emails Button */}
       <div className="button-emails">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleEmailsButtonClick}
           tooltip="Emails Button - Click me! 📧"
           tooltipPosition="top"
@@ -569,7 +569,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Agenda Button */}
       <div className="button-agenda">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleAgendaButtonClick}
           tooltip="Agenda Button - Click me! 📅"
           tooltipPosition="top"
@@ -594,7 +594,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Colis Button */}
       <div className="button-colis">
         <GoldenButton
-          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
+          theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleColisButtonClick}
           tooltip="Colis Button - Click me! 📦"
           tooltipPosition="top"

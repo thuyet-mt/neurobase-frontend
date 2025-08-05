@@ -22,10 +22,10 @@ export const getThemeFromMode = (currentMode) => {
       return 'dark';
     case 'light':
       return 'light';
-    case 'gold':
-      return 'gold';
+    case 'balance':
+      return 'balance';
     default:
-      return 'gold';
+      return 'balance';
   }
 };
 

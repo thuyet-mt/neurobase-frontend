@@ -93,8 +93,10 @@ const getCursorOffset = useCallback(() => {
 ## 📊 Default Values
 
 ### Cursor Offset Defaults
-- **X Offset**: 0.15 (15% of cursor size to the right)
-- **Y Offset**: 0.1 (10% of cursor size upward)
+- **X Offset**: 0.5 (50% of cursor size to the right)
+- **Y Offset**: 0.5 (50% of cursor size downward)
+
+These values position the click point at the top-left corner of the cursor.
 
 ### Size Range
 - **Minimum**: 250px

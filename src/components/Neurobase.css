@@ -62,7 +62,7 @@
   background: var(--Background-Dark, #030303);
 }
 
-.neurobase-root[data-theme="gold"] .neurobase-image-bg {
+.neurobase-root[data-theme="balance"] .neurobase-image-bg {
   background: var(--Background-Balance, #615637);
 }
 
@@ -162,7 +162,7 @@
   left: calc(50% - 279px/2 + 0.5px);
 }
 
-.neurobase-root[data-theme="gold"] .neurobase-title {
+.neurobase-root[data-theme="balance"] .neurobase-title {
   color: #DFAA2E;
   left: calc(50% - 279px/2 + 1px);
 }
@@ -177,7 +177,7 @@
   .neurobase-root[data-theme="light"] .neurobase-title {
     left: calc(50% - 260px/2 + 0.5px);
   }
-  .neurobase-root[data-theme="gold"] .neurobase-title,
+  .neurobase-root[data-theme="balance"] .neurobase-title,
   .neurobase-root[data-theme="dark"] .neurobase-title {
     left: calc(50% - 260px/2 + 1px);
   }
@@ -187,7 +187,7 @@
   .neurobase-root[data-theme="light"] .neurobase-title {
     left: calc(50% - 240px/2 + 0.5px);
   }
-  .neurobase-root[data-theme="gold"] .neurobase-title,
+  .neurobase-root[data-theme="balance"] .neurobase-title,
   .neurobase-root[data-theme="dark"] .neurobase-title {
     left: calc(50% - 240px/2 + 1px);
   }
@@ -197,7 +197,7 @@
   .neurobase-root[data-theme="light"] .neurobase-title {
     left: calc(50% - 200px/2 + 0.5px);
   }
-  .neurobase-root[data-theme="gold"] .neurobase-title,
+  .neurobase-root[data-theme="balance"] .neurobase-title,
   .neurobase-root[data-theme="dark"] .neurobase-title {
     left: calc(50% - 200px/2 + 1px);
   }
@@ -207,7 +207,7 @@
   .neurobase-root[data-theme="light"] .neurobase-title {
     left: calc(50% - 180px/2 + 0.5px);
   }
-  .neurobase-root[data-theme="gold"] .neurobase-title,
+  .neurobase-root[data-theme="balance"] .neurobase-title,
   .neurobase-root[data-theme="dark"] .neurobase-title {
     left: calc(50% - 180px/2 + 1px);
   }

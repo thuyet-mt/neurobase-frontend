@@ -265,7 +265,7 @@ Quản lý hỗ trợ đa ngôn ngữ trong toàn bộ ứng dụng.
 Xử lý chuyển đổi theme và styling.
 
 **Tính năng:**
-- Ba chế độ theme (light, dark, gold)
+- Ba chế độ theme (light, dark, balance)
 - Lưu trữ theme bền vững
 - Cập nhật styling động
 
@@ -341,7 +341,7 @@ Khi file ngôn ngữ không có sẵn:
 // Browser console
 localStorage.setItem('theme', 'light');
 localStorage.setItem('theme', 'dark');
-localStorage.setItem('theme', 'gold');
+localStorage.setItem('theme', 'balance');
 ```
 
 ### Tích hợp Theme
@@ -377,7 +377,7 @@ const handleMouseMove = (e) => {
 const getModelPath = (theme) => {
   switch (theme) {
     case 'dark': return '/neuro_core/config/models_3d/hand_robot_dark_v2.glb';
-    case 'gold': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
+    case 'balance': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
     case 'light': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
   }
 };

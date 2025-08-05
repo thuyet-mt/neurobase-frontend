@@ -60,7 +60,7 @@ const themeStyles = {
       border: '1px solid #555',
     },
   },
-      gold: {
+      balance: {
     outerGlow: {
       background: `linear-gradient(180deg, rgba(102, 102, 102, 0.2) 0%, rgba(102, 102, 102, 0) 32.69%), 
                    linear-gradient(180deg, rgba(102, 102, 102, 0) 50%, rgba(102, 102, 102, 0.4) 100%), 
@@ -96,7 +96,7 @@ const MenuIcon = ({ color = '#4E3117', size = 48 }) => (
 );
 
 const MenuButton = ({ 
-  theme = 'gold', 
+  theme = 'balance', 
   size = 80,
   onClick = () => {},
   tooltip = 'Menu',
@@ -107,7 +107,7 @@ const MenuButton = ({
   const { currentMode } = useTheme();
   
   const currentTheme = theme === 'auto' ? currentMode : theme;
-  const styles = themeStyles[currentTheme] || themeStyles.gold;
+  const styles = themeStyles[currentTheme] || themeStyles.balance;
 
   const outerSize = size;
   const innerSize = size * 0.92;

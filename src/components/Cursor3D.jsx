@@ -31,7 +31,7 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
         console.warn('Failed to parse saved cursor offset, using defaults');
       }
     }
-    return { x: 0.15, y: 0.1 };
+    return { x: 0.5, y: 0.5 };
   });
 
   // Memoized values to prevent unnecessary recalculations
@@ -50,7 +50,7 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     switch (theme) {
       case 'dark':
         return '/neuro_core/config/models_3d/hand_robot_dark_v2.glb';
-      case 'gold':
+      case 'balance':
         return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
       case 'light':
         return '/neuro_core/config/models_3d/hand_robot_light_v2.glb';
@@ -173,6 +173,18 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
           const action = mixer.clipAction(gltf.animations[0]);
           mixerRef.current = mixer;
           mixerRef.current._action = action;
+          console.log('🎬 Animation setup complete:', gltf.animations.length, 'animations');
+          
+          // Ensure all meshes in the model are visible during animation
+          model.traverse((child) => {
+            if (child.isMesh) {
+              child.visible = true;
+            }
+          });
+          
+          // Add animation completion callback
+          action.clampWhenFinished = true;
+          action.loop = THREE.LoopOnce;
         }
 
         setIsLoaded(true);
@@ -271,6 +283,37 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
         action.clampWhenFinished = true;
         action.reset();
         action.play();
+        console.log('🎬 Animation triggered on click');
+        
+        // Ensure model is visible during animation and hide static meshes
+        if (modelRef.current) {
+          modelRef.current.traverse((child) => {
+            if (child.isMesh) {
+              // Hide static meshes during animation to avoid showing original model
+              if (child.name.toLowerCase().includes('static') || 
+                  child.name.toLowerCase().includes('base') ||
+                  child.name.toLowerCase().includes('default')) {
+                child.visible = false;
+              } else {
+                child.visible = true;
+              }
+            }
+          });
+        }
+        
+        // Add completion callback to restore model after animation
+        action.getClip().duration = action.getClip().duration || 1;
+        setTimeout(() => {
+          if (modelRef.current) {
+            modelRef.current.traverse((child) => {
+              if (child.isMesh) {
+                child.visible = true; // Restore all meshes after animation
+              }
+            });
+          }
+        }, action.getClip().duration * 1000);
+      } else {
+        console.log('⚠️ No animation available for click');
       }
     };
 
@@ -293,7 +336,6 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     height: `${size}px`,
     pointerEvents: 'none',
     zIndex: 9999,
-    transform: 'translate(-50%, -50%)',
     transition: 'none'
   };
 

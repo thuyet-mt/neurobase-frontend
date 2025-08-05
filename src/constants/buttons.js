@@ -82,7 +82,7 @@ export const THEME_CONFIG = {
     background: '#030303',
     filter: 'none'
   },
-  gold: {
+  balance: {
     background: '#615637',
     filter: 'none'
   }

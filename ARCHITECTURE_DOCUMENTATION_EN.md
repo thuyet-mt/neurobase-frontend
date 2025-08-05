@@ -265,7 +265,7 @@ Manages multi-language support throughout the application.
 Handles theme switching and styling.
 
 **Features:**
-- Three theme modes (light, dark, gold)
+- Three theme modes (light, dark, balance)
 - Persistent theme storage
 - Dynamic styling updates
 
@@ -341,7 +341,7 @@ When language files are unavailable:
 // Browser console
 localStorage.setItem('theme', 'light');
 localStorage.setItem('theme', 'dark');
-localStorage.setItem('theme', 'gold');
+localStorage.setItem('theme', 'balance');
 ```
 
 ### Theme Integration
@@ -377,7 +377,7 @@ const handleMouseMove = (e) => {
 const getModelPath = (theme) => {
   switch (theme) {
     case 'dark': return '/neuro_core/config/models_3d/hand_robot_dark_v2.glb';
-    case 'gold': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
+    case 'balance': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
     case 'light': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
   }
 };
