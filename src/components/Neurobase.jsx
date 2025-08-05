@@ -123,7 +123,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
           background: '#030303',
           filter: 'none'
         };
-      case 'balance':
+      case 'gold':
         return {
           background: '#615637',
           filter: 'none'
@@ -393,7 +393,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       {/* Back Button */}
       {/* <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} /> */}
       <BackButton 
-        theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
+        theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'gold'}
         onClick={handleBackButtonClick}
         tooltip={getText("back")}
         icon={

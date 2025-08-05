@@ -265,7 +265,7 @@ const Logo3DModel = ({
         return '#F5D180';
       case 'light':
         return '#C7B7A5';
-      case 'balance':
+      case 'gold':
       default:
         return '#DFAA2E';
     }

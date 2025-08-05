@@ -16,8 +16,8 @@ export const ThemeProvider = ({ children }) => {
   const toggleMode = () => {
     setCurrentMode(prev => {
       if (prev === 'light') return 'dark';
-      if (prev === 'dark') return 'balance';
-      if (prev === 'balance') return 'light';
+      if (prev === 'dark') return 'gold';
+      if (prev === 'gold') return 'light';
       return 'light';
     });
   };

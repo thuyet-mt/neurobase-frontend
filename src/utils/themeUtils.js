@@ -22,7 +22,7 @@ export const getThemeFromMode = (currentMode) => {
       return 'dark';
     case 'light':
       return 'light';
-    case 'balance':
+    case 'gold':
       return 'gold';
     default:
       return 'gold';
