@@ -49,7 +49,10 @@ const ProgressBar = ({
     const deltaValue = (deltaX / progressBarWidth) * (max - min);
     const newValue = Math.max(min, Math.min(max, dragStartValue + deltaValue));
     
-    onChange(newValue);
+    // Throttle onChange calls to prevent excessive updates
+    if (Math.abs(newValue - value) > 1) { // Only update if change is significant
+      onChange(newValue);
+    }
   };
 
   const handleMouseUp = () => {

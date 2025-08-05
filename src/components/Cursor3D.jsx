@@ -136,7 +136,7 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     };
   }, []); // Only run once on mount
 
-  // Load model when theme changes
+  // Load model when theme changes - OPTIMIZED
   useEffect(() => {
     if (!sceneRef.current || !loaderRef.current) return;
 
@@ -208,13 +208,26 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
         setIsLoaded(true);
       }
     );
-  }, [currentMode, baseScale, getModelPath]);
+  }, [currentMode, getModelPath]); // Removed baseScale dependency
 
-  // Update renderer size efficiently
+  // Update model scale when baseScale changes - OPTIMIZED
   useEffect(() => {
-    if (rendererRef.current) {
-      rendererRef.current.setSize(size, size);
+    if (modelRef.current && isLoaded) {
+      const targetScale = isHovering ? baseScale * 1.1 : baseScale;
+      modelRef.current.scale.set(targetScale, targetScale, targetScale);
     }
+  }, [baseScale, isLoaded, isHovering]);
+
+  // Update renderer size efficiently - THROTTLED
+  useEffect(() => {
+    if (!rendererRef.current) return;
+
+    // Throttle size updates to prevent excessive resizing
+    const timeoutId = setTimeout(() => {
+      rendererRef.current.setSize(size, size);
+    }, 16); // ~60fps
+
+    return () => clearTimeout(timeoutId);
   }, [size]);
 
   // Handle mouse movement with throttling
