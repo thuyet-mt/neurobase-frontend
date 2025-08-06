@@ -331,7 +331,7 @@ When language files are unavailable:
 - **Text**: Light colors for contrast
 - **Accents**: Subtle golden accents
 
-#### Gold Theme
+#### Balanced Theme
 - **Background**: #615637 (Rich brown)
 - **Text**: Gold contrast
 - **Accents**: Prominent golden elements
@@ -363,8 +363,8 @@ The application features a custom 3D cursor that replaces the default mouse curs
 
 ### Model Files
 - `hand_robot_dark_v2.glb`: Dark theme cursor
-- `hand_robot_gold_v2.glb`: Gold theme cursor
-- `hand_robot_gold_v2.glb`: Light/Gold theme cursor
+- `hand_robot_balance_v2.glb`: Balanced theme cursor
+- `hand_robot_balance_v2.glb`: Light/Balanced theme cursor
 
 ### Technical Implementation
 ```javascript
@@ -377,8 +377,8 @@ const handleMouseMove = (e) => {
 const getModelPath = (theme) => {
   switch (theme) {
     case 'dark': return '/neuro_core/config/models_3d/hand_robot_dark_v2.glb';
-    case 'balance': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
-    case 'light': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
+    case 'balance': return '/neuro_core/config/models_3d/hand_robot_balance_v2.glb';
+case 'light': return '/neuro_core/config/models_3d/hand_robot_balance_v2.glb';
   }
 };
 ```

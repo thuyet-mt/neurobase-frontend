@@ -331,7 +331,7 @@ Khi file ngôn ngữ không có sẵn:
 - **Text**: Màu sáng để tương phản
 - **Accents**: Điểm nhấn vàng tinh tế
 
-#### Gold Theme
+#### Balanced Theme
 - **Background**: #615637 (Nâu phong phú)
 - **Text**: Tương phản cân bằng
 - **Accents**: Phần tử vàng nổi bật
@@ -363,8 +363,8 @@ localStorage.setItem('theme', 'balance');
 
 ### File Model
 - `hand_robot_dark_v2.glb`: Cursor theme tối
-- `hand_robot_gold_v2.glb`: Cursor theme vàng
-- `hand_robot_gold_v2.glb`: Cursor theme sáng/vàng
+- `hand_robot_balance_v2.glb`: Cursor theme cân bằng
+- `hand_robot_balance_v2.glb`: Cursor theme sáng/cân bằng
 
 ### Triển khai kỹ thuật
 ```javascript
@@ -377,8 +377,8 @@ const handleMouseMove = (e) => {
 const getModelPath = (theme) => {
   switch (theme) {
     case 'dark': return '/neuro_core/config/models_3d/hand_robot_dark_v2.glb';
-    case 'balance': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
-    case 'light': return '/neuro_core/config/models_3d/hand_robot_gold_v2.glb';
+    case 'balance': return '/neuro_core/config/models_3d/hand_robot_balance_v2.glb';
+case 'light': return '/neuro_core/config/models_3d/hand_robot_balance_v2.glb';
   }
 };
 ```
