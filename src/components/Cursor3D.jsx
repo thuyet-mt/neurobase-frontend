@@ -27,6 +27,7 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
   const animationFrameRef = useRef(null);
   const loaderRef = useRef(null);
   const isInitializedRef = useRef(false);
+  const lastSizeRef = useRef(size);
 
   // Load cursor offset from localStorage or use defaults
   const [cursorOffset, setCursorOffset] = useState(() => {
@@ -54,21 +55,23 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     return scale;
   }, [size]);
 
-  // Get model path based on theme
-  const getModelPath = useCallback((theme) => {
+  // Get model path based on theme - MEMOIZED
+  const getModelPath = useMemo(() => {
     const path = (() => {
-      switch (theme) {
+      switch (currentMode) {
         case 'dark':
           return '/neuro_core/config/models_3d/hand_robot_dark_v2.glb';
         case 'balance':
           return '/neuro_core/config/models_3d/hand_robot_balance_v2.glb';
         case 'light':
           return '/neuro_core/config/models_3d/hand_robot_light_v2.glb';
+        default:
+          return '/neuro_core/config/models_3d/hand_robot_balance_v2.glb';
       }
     })();
-    console.log(`🎨 Model path for theme ${theme}: ${path}`);
+    console.log(`🎨 Model path for theme ${currentMode}: ${path}`);
     return path;
-  }, []);
+  }, [currentMode]);
 
   // Calculate cursor offset to align fingertip with mouse position
   const getCursorOffset = useCallback(() => {
@@ -89,9 +92,7 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     }
   }, [onOffsetChange]);
 
-
-
-  // Initialize Three.js scene
+  // Initialize Three.js scene - OPTIMIZED
   useEffect(() => {
     if (!mountRef.current || isInitializedRef.current) {
       console.log(`🚫 Scene initialization skipped - mountRef: ${!!mountRef.current}, isInitialized: ${isInitializedRef.current}`);
@@ -144,19 +145,22 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
 
     console.log('✅ Scene initialization complete');
 
-    // Cleanup function
+    // Cleanup function - IMPROVED
     return () => {
       console.log('🧹 Cleaning up scene');
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
-      // Dispose Three.js resources
+      // Dispose Three.js resources - IMPROVED
       if (modelRef.current) {
         modelRef.current.traverse((child) => {
-          if (child.geometry) child.geometry.dispose();
+          if (child.geometry) {
+            child.geometry.dispose();
+          }
           if (child.material) {
             if (Array.isArray(child.material)) {
               child.material.forEach((mat) => mat && mat.dispose());
@@ -165,20 +169,27 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
             }
           }
         });
+        modelRef.current = null;
       }
       if (rendererRef.current) {
         rendererRef.current.dispose();
+        rendererRef.current = null;
       }
       if (sceneRef.current) {
         sceneRef.current.clear();
+        sceneRef.current = null;
       }
       if (mixerRef.current) {
         mixerRef.current.stopAllAction();
         if (mixerRef.current.uncacheRoot) {
           mixerRef.current.uncacheRoot(mixerRef.current.getRoot && mixerRef.current.getRoot());
         }
+        mixerRef.current = null;
       }
-      // Remove all event listeners (see below for mouse/key events)
+      if (loaderRef.current) {
+        loaderRef.current = null;
+      }
+      isInitializedRef.current = false;
     };
   }, []); // Only run once on mount
 
@@ -195,13 +206,23 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     if (modelRef.current) {
       console.log('🗑️ Removing existing model');
       sceneRef.current.remove(modelRef.current);
+      modelRef.current.traverse((child) => {
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) {
+          if (Array.isArray(child.material)) {
+            child.material.forEach((mat) => mat && mat.dispose());
+          } else {
+            child.material.dispose && child.material.dispose();
+          }
+        }
+      });
       modelRef.current = null;
     }
     if (mixerRef.current) {
       mixerRef.current = null;
     }
 
-    const modelPath = getModelPath(currentMode);
+    const modelPath = getModelPath;
     
     loaderRef.current.load(
       modelPath,
@@ -271,10 +292,17 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     }
   }, [baseScale, isLoaded, isHovering]);
 
-  // Update renderer size efficiently - THROTTLED
+  // Update renderer size efficiently - THROTTLED AND OPTIMIZED
   useEffect(() => {
     if (!rendererRef.current) {
       console.log(`🚫 Renderer size update skipped - rendererRef: ${!!rendererRef.current}`);
+      return;
+    }
+
+    // Only update if size actually changed significantly
+    const sizeDiff = Math.abs(size - lastSizeRef.current);
+    if (sizeDiff < 5) {
+      console.log(`🚫 Size change too small (${sizeDiff}px), skipping renderer update`);
       return;
     }
 
@@ -282,37 +310,46 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     // Throttle size updates to prevent excessive resizing
     const timeoutId = setTimeout(() => {
       rendererRef.current.setSize(size, size);
+      lastSizeRef.current = size;
       console.log(`✅ Renderer size updated to: ${size}x${size}`);
-    }, 16); // ~60fps
+    }, 32); // Increased to 32ms for better performance
 
     return () => clearTimeout(timeoutId);
   }, [size]);
 
-  // Mouse and keyboard event listeners cleanup
+  // Handle mouse movement with throttling
   useEffect(() => {
     let rafId = null;
+    
     const handleMouseMove = (e) => {
       if (rafId) return; // Throttle updates
+      
       rafId = requestAnimationFrame(() => {
         setMousePosition({ x: e.clientX, y: e.clientY });
         rafId = null;
       });
     };
+
     const handleMouseEnter = () => {
+      console.log('🖱️ Mouse entered cursor area');
       setIsHovering(true);
       if (modelRef.current && !isClicking) {
         modelRef.current.scale.set(baseScale * 1.1, baseScale * 1.1, baseScale * 1.1);
       }
     };
+
     const handleMouseLeave = () => {
+      console.log('🖱️ Mouse left cursor area');
       setIsHovering(false);
       if (modelRef.current && !isClicking) {
         modelRef.current.scale.set(baseScale, baseScale, baseScale);
       }
     };
+
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
+
     return () => {
       if (rafId) {
         cancelAnimationFrame(rafId);
@@ -323,29 +360,42 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     };
   }, [isLoaded, baseScale, isClicking]);
 
+  // Handle click animation with better state management
   useEffect(() => {
     const handleMouseDown = () => {
+      console.log('🖱️ Mouse down detected');
       setIsClicking(true);
+      // Remove scale down effect - cursor stays the same size
       if (modelRef.current) {
+        // Keep current scale without shrinking
         const currentScale = isHovering ? baseScale * 1.1 : baseScale;
         modelRef.current.scale.set(currentScale, currentScale, currentScale);
       }
     };
+
     const handleMouseUp = () => {
+      console.log('🖱️ Mouse up detected');
       setIsClicking(false);
       if (modelRef.current) {
+        // Restore scale based on hover state
         const targetScale = isHovering ? baseScale * 1.1 : baseScale;
         modelRef.current.scale.set(targetScale, targetScale, targetScale);
       }
+      
+      // Trigger animation if available
       if (mixerRef.current && mixerRef.current._action) {
         const action = mixerRef.current._action;
         action.setLoop(THREE.LoopOnce);
         action.clampWhenFinished = true;
         action.reset();
         action.play();
+        console.log('🎬 Animation triggered on click');
+        
+        // Ensure model is visible during animation and hide static meshes
         if (modelRef.current) {
           modelRef.current.traverse((child) => {
             if (child.isMesh) {
+              // Hide static meshes during animation to avoid showing original model
               if (child.name.toLowerCase().includes('static') || 
                   child.name.toLowerCase().includes('base') ||
                   child.name.toLowerCase().includes('default')) {
@@ -356,33 +406,42 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
             }
           });
         }
+        
+        // Add completion callback to restore model after animation
         action.getClip().duration = action.getClip().duration || 1;
         setTimeout(() => {
           if (modelRef.current) {
             modelRef.current.traverse((child) => {
               if (child.isMesh) {
-                child.visible = true;
+                child.visible = true; // Restore all meshes after animation
               }
             });
           }
         }, action.getClip().duration * 1000);
+      } else {
+        console.log('⚠️ No animation available for click');
       }
     };
+
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mouseup', handleMouseUp);
+
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isLoaded, baseScale, isHovering]);
 
+  // Calibration keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.shiftKey && e.key === 'C') {
         e.preventDefault();
         console.log('🎛️ Calibration shortcut triggered');
+        // You can implement calibration UI here
       }
     };
+
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
@@ -401,9 +460,10 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
   };
 
   return (
-    <div
-      ref={mountRef}
+    <div 
+      ref={mountRef} 
       style={cursorStyle}
+      className="cursor-3d-container"
     />
   );
 };

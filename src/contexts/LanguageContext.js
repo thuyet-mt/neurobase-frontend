@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 const LanguageContext = createContext();
 
@@ -61,7 +61,7 @@ export const LanguageProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Load language data from localStorage and fetch JSON
+  // Load language data from localStorage and fetch JSON - OPTIMIZED
   useEffect(() => {
     const loadLanguageData = async () => {
       try {
@@ -75,9 +75,17 @@ export const LanguageProvider = ({ children }) => {
         console.log('🌐 React: Loading language from localStorage...');
         console.log('🌐 React: savedLanguage =', savedLanguage);
         
-        // Try to fetch language data from server
+        // Try to fetch language data from server with timeout
         try {
-          const response = await fetch(`/langs/${savedLanguage}.json`);
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 3000); // 3 second timeout
+          
+          const response = await fetch(`/langs/${savedLanguage}.json`, {
+            signal: controller.signal
+          });
+          
+          clearTimeout(timeoutId);
+          
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -99,78 +107,78 @@ export const LanguageProvider = ({ children }) => {
       } catch (err) {
         console.error('❌ Failed to load language data:', err);
         setError(err.message);
-        
-        // Use built-in English data as last resort
+        // Use fallback data on error
         setLanguageData(fallbackEnglishData);
         setLanguage('en');
-        console.log('🔄 Using built-in English data as last resort');
       } finally {
         setLoading(false);
       }
     };
 
     loadLanguageData();
-  }, []);
+  }, []); // Only run once on mount
 
-  // Listen for language change events from Python
-  useEffect(() => {
-    const handleLanguageChange = (event) => {
-      const { language: newLanguage, data } = event.detail;
-      console.log('🔄 Language changed via event:', newLanguage);
+  // Memoized language change handler
+  const handleLanguageChange = useMemo(() => (event) => {
+    const newLanguage = event.detail;
+    console.log('🌐 React: Language change event received:', newLanguage);
+    
+    if (newLanguage && newLanguage !== language) {
       setLanguage(newLanguage);
-      setLanguageData(data);
-    };
-
-    window.addEventListener('languageChanged', handleLanguageChange);
-    
-    return () => {
-      window.removeEventListener('languageChanged', handleLanguageChange);
-    };
-  }, []);
-
-  // Helper function to get text from language data
-  const getText = (key, section = 'neurobase_window') => {
-    if (!languageData || !languageData[section]) {
-      console.warn(`⚠️ Language data not available for section: ${section}`);
-      return key; // Return key as fallback
+      localStorage.setItem('language', newLanguage);
+      
+      // Reload language data for new language
+      const loadNewLanguageData = async () => {
+        try {
+          setLoading(true);
+          const response = await fetch(`/langs/${newLanguage}.json`);
+          if (response.ok) {
+            const data = await response.json();
+            setLanguageData(data);
+            console.log('✅ New language data loaded:', newLanguage);
+          } else {
+            console.warn('⚠️ Failed to load new language, keeping current data');
+          }
+        } catch (error) {
+          console.error('❌ Error loading new language data:', error);
+          // Keep current language data on error
+        } finally {
+          setLoading(false);
+        }
+      };
+      
+      loadNewLanguageData();
     }
-    
-    const sectionData = languageData[section];
-    const text = sectionData[key];
-    
-    if (!text) {
-      console.warn(`⚠️ Text not found for key: ${key} in section: ${section}`);
-      return key; // Return key as fallback
-    }
-    
-    return text;
-  };
+  }, [language]);
 
-  // Helper function to get text with parameters
-  const getTextWithParams = (key, params = {}, section = 'neurobase_window') => {
+  // Memoized text getter functions
+  const getText = useMemo(() => (key, section = 'neurobase_window') => {
+    if (!languageData) {
+      return fallbackEnglishData[section]?.[key] || key;
+    }
+    return languageData[section]?.[key] || fallbackEnglishData[section]?.[key] || key;
+  }, [languageData]);
+
+  const getTextWithParams = useMemo(() => (key, params = {}, section = 'neurobase_window') => {
     let text = getText(key, section);
     
-    // Replace parameters in text
+    // Replace parameters in the text
     Object.keys(params).forEach(param => {
-      const placeholder = `{${param}}`;
-      text = text.replace(placeholder, params[param]);
+      text = text.replace(new RegExp(`{${param}}`, 'g'), params[param]);
     });
     
     return text;
-  };
+  }, [getText]);
 
-  const value = {
+  const value = useMemo(() => ({
     language,
     languageData,
     loading,
     error,
     getText,
     getTextWithParams,
-    setLanguage: (newLanguage) => {
-      setLanguage(newLanguage);
-      localStorage.setItem('language', newLanguage);
-    }
-  };
+    handleLanguageChange
+  }), [language, languageData, loading, error, getText, getTextWithParams, handleLanguageChange]);
 
   return React.createElement(LanguageContext.Provider, { value }, children);
 }; 
