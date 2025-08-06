@@ -88,8 +88,4 @@ export const THEME_CONFIG = {
   }
 };
 
-export const POSITION_CONFIG = {
-  menuButton: { top: '64px', right: '64px' },
-  backButton: { top: '64px', left: '64px' },
-  modeButton: { bottom: '64px', right: '64px' }
-}; 
+ 

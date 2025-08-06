@@ -6,9 +6,8 @@ import ErrorBoundary from "./services/ErrorBoundary";
 import NotificationSystem from "./components/NotificationSystem";
 import OptimizedCursor3D from "./components/OptimizedCursor3D";
 import CursorCalibration from "./components/CursorCalibration";
-import { POSITION_CONFIG } from "./constants/buttons";
+
 import { useThrottledProgress } from "./hooks/useThrottledProgress";
-import performanceMonitor from "./utils/performanceMonitor";
 
 function App() {
   // Add render counter for tracking re-renders
@@ -37,15 +36,7 @@ function App() {
     setCursorOffset(newOffset);
   }, []);
 
-  // Log performance stats periodically
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      const stats = performanceMonitor.getStats();
-      console.log(`📈 Performance Stats:`, stats);
-    }, 10000); // Log every 10 seconds
 
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <ErrorBoundary>
@@ -61,7 +52,6 @@ function App() {
           />
           <NotificationSystem />
           <Neurobase 
-            {...POSITION_CONFIG}
             showMenuButton={true}
             showBackButton={true} 
             showModeButton={true}

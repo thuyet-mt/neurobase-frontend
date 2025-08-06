@@ -89,6 +89,8 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     }
   }, [onOffsetChange]);
 
+
+
   // Initialize Three.js scene
   useEffect(() => {
     if (!mountRef.current || isInitializedRef.current) {
@@ -377,6 +379,22 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isLoaded, baseScale, isHovering]);
+
+
+
+  // Calibration keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        e.preventDefault();
+        console.log('🎛️ Calibration shortcut triggered');
+        // You can implement calibration UI here
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Calculate cursor position with proper offset
   const offset = getCursorOffset();
