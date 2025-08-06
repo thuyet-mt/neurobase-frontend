@@ -7,6 +7,7 @@ class PerformanceMonitor {
     this.memoryUsage = 0;
     this.isMonitoring = false;
     this.monitorInterval = null;
+    this.animationFrameId = null; // Added for cancelAnimationFrame
   }
 
   start() {
@@ -34,11 +35,11 @@ class PerformanceMonitor {
       }
       
       if (this.isMonitoring) {
-        requestAnimationFrame(measureFPS);
+        this.animationFrameId = requestAnimationFrame(measureFPS);
       }
     };
     
-    requestAnimationFrame(measureFPS);
+    this.animationFrameId = requestAnimationFrame(measureFPS);
     
     // Monitor memory usage every 5 seconds
     this.monitorInterval = setInterval(() => {
@@ -63,6 +64,10 @@ class PerformanceMonitor {
     if (this.monitorInterval) {
       clearInterval(this.monitorInterval);
       this.monitorInterval = null;
+    }
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
     }
   }
 

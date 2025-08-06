@@ -132,13 +132,11 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     // Animation loop with better performance
     const animate = () => {
       animationFrameRef.current = requestAnimationFrame(animate);
-
       // Update animations
       if (mixerRef.current) {
         const delta = clockRef.current.getDelta();
         mixerRef.current.update(delta);
       }
-
       // Render
       renderer.render(scene, camera);
     };
@@ -155,7 +153,32 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
       if (mountRef.current && renderer.domElement) {
         mountRef.current.removeChild(renderer.domElement);
       }
-      renderer.dispose();
+      // Dispose Three.js resources
+      if (modelRef.current) {
+        modelRef.current.traverse((child) => {
+          if (child.geometry) child.geometry.dispose();
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach((mat) => mat && mat.dispose());
+            } else {
+              child.material.dispose && child.material.dispose();
+            }
+          }
+        });
+      }
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
+      }
+      if (sceneRef.current) {
+        sceneRef.current.clear();
+      }
+      if (mixerRef.current) {
+        mixerRef.current.stopAllAction();
+        if (mixerRef.current.uncacheRoot) {
+          mixerRef.current.uncacheRoot(mixerRef.current.getRoot && mixerRef.current.getRoot());
+        }
+      }
+      // Remove all event listeners (see below for mouse/key events)
     };
   }, []); // Only run once on mount
 
@@ -265,39 +288,31 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     return () => clearTimeout(timeoutId);
   }, [size]);
 
-  // Handle mouse movement with throttling
+  // Mouse and keyboard event listeners cleanup
   useEffect(() => {
     let rafId = null;
-    
     const handleMouseMove = (e) => {
       if (rafId) return; // Throttle updates
-      
       rafId = requestAnimationFrame(() => {
         setMousePosition({ x: e.clientX, y: e.clientY });
         rafId = null;
       });
     };
-
     const handleMouseEnter = () => {
-      console.log('🖱️ Mouse entered cursor area');
       setIsHovering(true);
       if (modelRef.current && !isClicking) {
         modelRef.current.scale.set(baseScale * 1.1, baseScale * 1.1, baseScale * 1.1);
       }
     };
-
     const handleMouseLeave = () => {
-      console.log('🖱️ Mouse left cursor area');
       setIsHovering(false);
       if (modelRef.current && !isClicking) {
         modelRef.current.scale.set(baseScale, baseScale, baseScale);
       }
     };
-
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseleave', handleMouseLeave);
-
     return () => {
       if (rafId) {
         cancelAnimationFrame(rafId);
@@ -308,42 +323,29 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
     };
   }, [isLoaded, baseScale, isClicking]);
 
-  // Handle click animation with better state management
   useEffect(() => {
     const handleMouseDown = () => {
-      console.log('🖱️ Mouse down detected');
       setIsClicking(true);
-      // Remove scale down effect - cursor stays the same size
       if (modelRef.current) {
-        // Keep current scale without shrinking
         const currentScale = isHovering ? baseScale * 1.1 : baseScale;
         modelRef.current.scale.set(currentScale, currentScale, currentScale);
       }
     };
-
     const handleMouseUp = () => {
-      console.log('🖱️ Mouse up detected');
       setIsClicking(false);
       if (modelRef.current) {
-        // Restore scale based on hover state
         const targetScale = isHovering ? baseScale * 1.1 : baseScale;
         modelRef.current.scale.set(targetScale, targetScale, targetScale);
       }
-      
-      // Trigger animation if available
       if (mixerRef.current && mixerRef.current._action) {
         const action = mixerRef.current._action;
         action.setLoop(THREE.LoopOnce);
         action.clampWhenFinished = true;
         action.reset();
         action.play();
-        console.log('🎬 Animation triggered on click');
-        
-        // Ensure model is visible during animation and hide static meshes
         if (modelRef.current) {
           modelRef.current.traverse((child) => {
             if (child.isMesh) {
-              // Hide static meshes during animation to avoid showing original model
               if (child.name.toLowerCase().includes('static') || 
                   child.name.toLowerCase().includes('base') ||
                   child.name.toLowerCase().includes('default')) {
@@ -354,44 +356,33 @@ const Cursor3D = ({ size = 150, onOffsetChange }) => {
             }
           });
         }
-        
-        // Add completion callback to restore model after animation
         action.getClip().duration = action.getClip().duration || 1;
         setTimeout(() => {
           if (modelRef.current) {
             modelRef.current.traverse((child) => {
               if (child.isMesh) {
-                child.visible = true; // Restore all meshes after animation
+                child.visible = true;
               }
             });
           }
         }, action.getClip().duration * 1000);
-      } else {
-        console.log('⚠️ No animation available for click');
       }
     };
-
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mouseup', handleMouseUp);
-
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isLoaded, baseScale, isHovering]);
 
-
-
-  // Calibration keyboard shortcut
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.ctrlKey && e.shiftKey && e.key === 'C') {
         e.preventDefault();
         console.log('🎛️ Calibration shortcut triggered');
-        // You can implement calibration UI here
       }
     };
-
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);

@@ -103,13 +103,17 @@ const ProgressBar = ({
       console.log(`🎯 ProgressBar adding mouse event listeners`);
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
-      
       return () => {
         console.log(`🎯 ProgressBar removing mouse event listeners`);
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
       };
     }
+    // Cleanup on unmount (nếu đang dragging)
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
   }, [isDragging, dragStartX, dragStartValue, max, min, onChange, disabled, isIntentionalDrag, dragStartTime]);
 
   return (
