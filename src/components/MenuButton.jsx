@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import UserIcon from "../assets/user_icon.svg";
 
 // Centralized configuration for all theme styles
@@ -103,8 +104,9 @@ const MenuButton = ({
   tooltipPosition = 'left', // 'top', 'bottom', 'left', 'right'
   position = { right: '64px', top: '64px' }
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const { currentMode } = useTheme();
+  const { getText } = useLanguage();
+  const [isHovered, setIsHovered] = useState(false);
   
   const currentTheme = theme === 'auto' ? currentMode : theme;
   const styles = themeStyles[currentTheme] || themeStyles.balance;
@@ -272,11 +274,11 @@ const MenuButton = ({
             {Array.isArray(tooltip)
               ? tooltip.map((line, index) => (
                   <React.Fragment key={index}>
-                    {line}
+                    {typeof line === 'string' && line.startsWith('tooltip_') ? getText(line) : line}
                     {index < tooltip.length - 1 && <br />}
                   </React.Fragment>
                 ))
-              : tooltip
+              : typeof tooltip === 'string' && tooltip.startsWith('tooltip_') ? getText(tooltip) : tooltip
             }
           </span>
           <div

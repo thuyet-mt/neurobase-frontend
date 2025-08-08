@@ -389,13 +389,13 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       </div>
       <h1 className="neurobase-title">{getText("title")}</h1>
       {/* Menu Button ở góc trên bên phải */}
-      <MenuButton onClick={handleMenuButtonClick} />
+      <MenuButton onClick={handleMenuButtonClick} tooltip="tooltip_menu_button" />
       {/* Back Button */}
       {/* <BackButton tooltip="Quay lại" onClick={handleBackButtonClick} /> */}
       <BackButton 
         theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
         onClick={handleBackButtonClick}
-        tooltip={getText("back")}
+        tooltip="tooltip_back_button"
         icon={
           <div style={{
             display: 'flex',
@@ -421,7 +421,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleGoldenButtonClick}
-          tooltip="Golden Button - Click me! ✨"
+          tooltip="tooltip_archives"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -446,7 +446,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleTelephoneButtonClick}
-          tooltip="Telephone Button - Click me! 📞"
+          tooltip="tooltip_telephone"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -471,7 +471,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleReunionButtonClick}
-          tooltip="Reunion Button - Click me! 👥"
+          tooltip="tooltip_reunions"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -496,7 +496,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleAccueilButtonClick}
-          tooltip="Accueil Button - Click me! 🏠"
+          tooltip="tooltip_accueil"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -521,7 +521,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleCommandesButtonClick}
-          tooltip="Commandes Button - Click me! 📋"
+          tooltip="tooltip_commandes"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -546,7 +546,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleEmailsButtonClick}
-          tooltip="Emails Button - Click me! 📧"
+          tooltip="tooltip_emails"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -571,7 +571,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleAgendaButtonClick}
-          tooltip="Agenda Button - Click me! 📅"
+          tooltip="tooltip_agenda"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -596,7 +596,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         <GoldenButton
           theme={currentMode === 'dark' ? 'dark' : currentMode === 'light' ? 'light' : 'balance'}
           onClick={handleColisButtonClick}
-          tooltip="Colis Button - Click me! 📦"
+          tooltip="tooltip_colis"
           tooltipPosition="top"
           size="100%"
           icon={
@@ -620,7 +620,7 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
       <div className="button-mode">
         <ModeButton
           size={80}
-          tooltip="Switch Theme Mode"
+          tooltip="tooltip_mode_button"
           tooltipPosition="top"
           onModeChange={handleModeButtonClick}
         />

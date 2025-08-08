@@ -1,3 +1,7 @@
+// Performance monitoring configuration
+const PERFORMANCE_MONITORING_ENABLED = process.env.NODE_ENV === 'development' || 
+                                      localStorage.getItem('performance_monitoring_enabled') === 'true';
+
 // Performance monitoring utility
 class PerformanceMonitor {
   constructor() {
@@ -11,7 +15,7 @@ class PerformanceMonitor {
   }
 
   start() {
-    if (this.isMonitoring) return;
+    if (this.isMonitoring || !PERFORMANCE_MONITORING_ENABLED) return;
     
     console.log('📊 Starting performance monitoring...');
     this.isMonitoring = true;
@@ -75,16 +79,32 @@ class PerformanceMonitor {
     return {
       fps: this.fps,
       memoryUsage: this.memoryUsage,
-      isMonitoring: this.isMonitoring
+      isMonitoring: this.isMonitoring,
+      enabled: PERFORMANCE_MONITORING_ENABLED
     };
+  }
+
+  // Static methods to control monitoring
+  static enable() {
+    localStorage.setItem('performance_monitoring_enabled', 'true');
+    window.location.reload(); // Reload to apply changes
+  }
+
+  static disable() {
+    localStorage.setItem('performance_monitoring_enabled', 'false');
+    window.location.reload(); // Reload to apply changes
+  }
+
+  static isEnabled() {
+    return PERFORMANCE_MONITORING_ENABLED;
   }
 }
 
 // Create global instance
 const performanceMonitor = new PerformanceMonitor();
 
-// Auto-start monitoring in development
-if (process.env.NODE_ENV === 'development') {
+// Auto-start monitoring if enabled
+if (PERFORMANCE_MONITORING_ENABLED) {
   // Start monitoring after a short delay to let the app load
   setTimeout(() => {
     performanceMonitor.start();
