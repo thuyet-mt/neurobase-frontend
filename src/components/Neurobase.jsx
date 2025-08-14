@@ -29,6 +29,7 @@ import AgendaIcon from "../assets/agenda_icon.svg"
 import ColisIcon from "../assets/colis_icon.svg"
 import BackButton from "./BackButton";
 import BackIcon from "../assets/back_icon.svg";
+import BenchmarkPanel from "./BenchmarkPanel";
 
 // Debounce utility
 const debounce = (func, wait) => {
@@ -678,18 +679,28 @@ export default function Neurobase({ progressValue = 35, onProgressChange = () =>
         {/* Có thể thêm các component menu ở đây */}
       </ContainerFrameMenu>
       
-      {/* Thông báo popup */}
+      {/* Benchmark Panel */}
+      <BenchmarkPanel />
+
+      {/* Notification System */}
       {showNotification && (
-        <div className="notification-popup">
-          <div className="notification-content">
-            <span className="notification-message">{notificationMessage}</span>
-            <button 
-              className="notification-close"
-              onClick={() => setShowNotification(false)}
-            >
-              ×
-            </button>
-          </div>
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "rgba(0, 0, 0, 0.9)",
+            color: "white",
+            padding: "15px 20px",
+            borderRadius: "8px",
+            zIndex: 10000,
+            backdropFilter: "blur(10px)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            animation: "slideDown 0.3s ease-out",
+          }}
+        >
+          {notificationMessage}
         </div>
       )}
     </div>

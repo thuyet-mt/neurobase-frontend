@@ -6,6 +6,7 @@ import ErrorBoundary from "./services/ErrorBoundary";
 import NotificationSystem from "./components/NotificationSystem";
 import OptimizedCursor3D from "./components/OptimizedCursor3D";
 import CursorCalibration from "./components/CursorCalibration";
+import CursorPerformancePanel from "./components/CursorPerformancePanel";
 
 import { useThrottledProgress } from "./hooks/useThrottledProgress";
 
@@ -48,6 +49,7 @@ function App() {
             onOffsetChange={handleCursorOffsetChange}
             currentOffset={cursorOffset}
           />
+          <CursorPerformancePanel />
           <NotificationSystem />
           <Neurobase 
             showMenuButton={true}
